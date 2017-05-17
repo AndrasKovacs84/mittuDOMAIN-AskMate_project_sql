@@ -1,5 +1,5 @@
 import queries
-
+import common
 from flask import Flask, render_template, request, url_for, redirect
 
 
@@ -57,7 +57,7 @@ def question(question_id, methods=['GET']):
         answer[DATA_TIME_INDEX] = data_manager.decode_time(answer[DATA_TIME_INDEX])
     return render_template('question_details.html', question=question,
                             answers=answers_for_question_id, answer_title=all_answers[0])
-'''
+                            '''
 
 
 @app.route('/question/<int:question_id>/new_answer', methods=['GET'])
@@ -75,9 +75,15 @@ def new_answer_form(question_id):
 def new_question_id():
     button_value = request.form["button"]
     if button_value == "Post Question":
-        data = data_manager.get_datatable_from_file('data/question.csv', QUESTION_B64_COL)
-        new_question = common.get_new_question(data, request.form)
-        return redirect("/question/" + str(new_question[0]))
+        new_question = common.get_new_question_values(request.form)
+        data_to_insert = {'table': 'tablename', 
+                          'columns': ['submission_time', 'view_number', 'vote_number', 'title', 'message', 'image'], 
+                          'values': new_question}
+        queries.sql_insert(data_to_insert)
+        id_query = "SELECT max(id) FROM question;"
+        new_question = queries.sql_empty_qry(id_query)
+        print(new_question)
+        return redirect("/question/" + str(int(new_question['result_set'][0][0])))
     if button_value.isdigit():
         data = data_manager.get_datatable_from_file('data/answer.csv', ANSWER_B64_COL)
         new_answer = common.get_new_answer(data, request.form, button_value)
