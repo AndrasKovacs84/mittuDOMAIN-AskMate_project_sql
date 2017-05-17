@@ -2,17 +2,17 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <title>{{ question.result_set[0][4] }}</title>
+    <title>{{ question.title }}</title>
 </head>
 <body>
     <div class="question_details">
-        <h2>{{ question.result_set[0][4] }}</h2>
-        <p> {{ question.result_set[0][5] }}</p>
+        <h2>{{ question.title }}</h2>
+        <p> {{ question.message }}</p>
     </div>
     <div class="answers">
         <h2>Answers</h2>
         <table>
-            {% if answers.result_set[0]|length %}
+            {% if answers.result_set|length %}
                 <thead>
                     {% for header in answers.header %}
                         <th>{{ header }}</th>

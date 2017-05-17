@@ -8,7 +8,7 @@
     <h2>AskMate</h2>
         <button name="new_question" onclick="location.href='/question/new'" type="button">Ask a question</button>
 
-    <table>
+    <table maxlength="20" >
         <tr>
             {% for header in questions['header'] %}
                 <!--Omit message text header-->

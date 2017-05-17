@@ -10,9 +10,7 @@ app = Flask(__name__)
 def list_questions():
     ''' Displays the list of questions.
     Loads data from question table, sorted by time.'''
-
-    query = {'table': 'question', 'columns': '*', 'filter': None, 'order_by': 'submission_time'}
-    questions_table = queries.sql_select(query)
+    questions_table = queries.sql_list_questions()  # Query can accept a variable to order by, default: sort='submission_time DESC'
     return render_template('list.html', questions=questions_table)
 
 
@@ -31,38 +29,13 @@ def new_question():
 
 @app.route('/question/<int:question_id>')
 def question(question_id, methods=['GET']):
-    """Displays question details"""
-    query = {'table': 'question', 'columns': '*', 'filter': 'id={0}'.format(question_id), 'order_by': 'submission_time'}
-    selected_question = queries.sql_select(query)
-    query = {'table': 'answer', 'columns': '*', 'filter': 'question_id={0}'.format(question_id), 'order_by': 'submission_time'}
-    answers = queries.sql_select(query)
-    print(answers)
+    """Based on the question_id in the url, increases view_count by 1, then a select satement retrieves the
+    relevant data for the question with the id. Another query collects all the associated answers, then the
+    page is rendered with the two parts."""
+    queries.sql_update_question_view_count(question_id)
+    selected_question = queries.sql_question_details(question_id)
+    answers = queries.sql_answers_to_question(question_id)
     return render_template('question_details.html', question=selected_question, answers=answers)
-
-
-
-
-'''
-@app.route('/question/<int:question_id>')
-def question(question_id, methods=['GET']):
-    """
-    Displays the the requested question and the answers to it if they exist.
-    We arrive here from '/',
-    and from 'question/question_id/new_answer' (returning here after posting a new answer to the question)
-    """
-    question = data_manager.get_datatable_from_file('data/question.csv', QUESTION_B64_COL)
-    question = common.search_row_by_id(question_id, question)
-    all_answers = data_manager.get_datatable_from_file('data/answer.csv', ANSWER_B64_COL)
-    answers_for_question_id = []
-    for ans in all_answers:
-        if str(question_id) == ans[3]:
-            answers_for_question_id.append(ans)
-
-    for answer in answers_for_question_id:
-        answer[DATA_TIME_INDEX] = data_manager.decode_time(answer[DATA_TIME_INDEX])
-    return render_template('question_details.html', question=question,
-                            answers=answers_for_question_id, answer_title=all_answers[0])
-                            '''
 
 
 @app.route('/question/<int:question_id>/new_answer', methods=['GET'])

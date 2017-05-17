@@ -74,3 +74,79 @@ def sql_empty_qry(cursor, query):
     data['header'] = column_names
     data['result_set'] = rows
     return data
+
+
+@connect_to_sql
+def sql_list_questions(cursor, sort='submission_time DESC'):
+    data = {'header': [],
+            'result_set': []}
+    cursor.execute("""
+                   SELECT
+                   id AS "Id",
+                   submission_time AS "Submission time",
+                   view_number AS "View number",
+                   vote_number AS "Vote number",
+                   title AS "Title",
+                   message AS "Message",
+                   image AS "Image"
+                   FROM question
+                   ORDER BY {0};
+                   """.format(sort))
+    column_names = [desc[0] for desc in cursor.description]
+    rows = cursor.fetchall()
+    data['header'] = column_names
+    data['result_set'] = rows
+    return data
+
+
+@connect_to_sql
+def sql_update_question_view_count(cursor, question_id):
+    cursor.execute("""
+                   UPDATE question
+                   SET view_number = view_number + 1
+                   WHERE id={0}
+                   """.format(question_id))
+
+
+@connect_to_sql
+def sql_question_details(cursor, question_id):
+    cursor.execute("""
+                   SELECT
+                   submission_time AS "Submission time",
+                   view_number AS "View number",
+                   vote_number AS "Vote number",
+                   title AS "Title",
+                   message AS "Message",
+                   image AS "Image" 
+                   FROM question
+                   WHERE id={0}
+                   """.format(question_id))
+    result = cursor.fetchall()
+    question = {'submission_time': result[0][0],
+                'view_number': result[0][1],
+                'vote_number': result[0][2],
+                'title': result[0][3],
+                'message': result[0][4],
+                'image': result[0][5]}
+    return question
+
+
+@connect_to_sql
+def sql_answers_to_question(cursor, question_id):
+    data = {'header': [],
+            'result_set': []}
+    cursor.execute("""
+                   SELECT
+                   submission_time AS "Submission time",
+                   vote_number AS "Vote number",
+                   message AS "Message",
+                   image AS "Image"
+                   FROM answer
+                   WHERE question_id={0}
+                   """.format(question_id))
+    column_names = [desc[0] for desc in cursor.description]
+    rows = cursor.fetchall()
+    data['header'] = column_names
+    data['result_set'] = rows
+    print(data)
+    return data
