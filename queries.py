@@ -1,7 +1,7 @@
-from connect import 
+from connect import connect_to_sql
 
 
-@
+@connect_to_sql
 def select_statement(query):
     '''Displays the query chosen by the user. Parameter is a dictionary of the relevant properties
     for a simple query. Returns the results of the query. data[0] = list of column names as header,

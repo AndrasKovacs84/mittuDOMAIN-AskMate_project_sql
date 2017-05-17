@@ -1,12 +1,12 @@
 import psycopg2
-import connect_config
+import personal_config
 
 
 def connect_to_sql(func):
     def with_connection():
         try:
             # setup connection string
-            connect_str = connect_config.my_connection()
+            connect_str = personal_config.my_connection()
             # use our connection values to establish a connection
             conn = psycopg2.connect(host=connect_str["host"],
                                     user=connect_str["user"],
