@@ -33,8 +33,12 @@ def question(question_id, methods=['GET']):
     """Displays question details"""
     query = {'table': 'question', 'columns': '*', 'filter': 'id={0}'.format(question_id), 'order_by': 'submission_time'}
     selected_question = queries.sql_select(query)
-    print(selected_question)
-    return render_template('question_details.html', question=selected_question)
+    query = {'table': 'answer', 'columns': '*', 'filter': 'question_id={0}'.format(question_id), 'order_by': 'submission_time'}
+    answers = queries.sql_select(query)
+    print(answers)
+    return render_template('question_details.html', question=selected_question, answers=answers)
+
+
 
 
 '''
