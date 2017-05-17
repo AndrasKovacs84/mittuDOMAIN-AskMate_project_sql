@@ -14,7 +14,7 @@ def sql_select(cursor, query):
                        SELECT {0}
                        FROM {1}
                        ORDER BY {2};
-                       """.format(query['columns'], query['table'], query[order_by]))
+                       """.format(query['columns'], query['table'], query['order_by']))
     else:
         cursor.execute("""
                        SELECT DISTINCT {1}
