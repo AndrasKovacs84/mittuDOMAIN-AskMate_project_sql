@@ -23,12 +23,12 @@
         <br>
         <label>Question Title:</label>
         <br>
-        <input type="text" name="title" required minlength="10" value="{{ question[4]}}">
+        <input type="text" name="title" required minlength="10" value="{{ question['result_set'][0][0] }}">
         <br>
         <br>
         <label>Question</label>
         <br>
-        <textarea name="story" required minlength="10" rows="15" cols="97">{{ question[5] }}</textarea>
+        <textarea name="story" required minlength="10" rows="15" cols="97">{{ question['result_set'][0][1] }}</textarea>
         <br>
         <br>
         <br>
