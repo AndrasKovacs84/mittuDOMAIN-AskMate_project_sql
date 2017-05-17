@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    {% if not question %}
+    <title>Post New Question</title>
+    {% else %}
+    <title>Edit Question</title>
+    {% endif %}
+</head>
+<body>
+ <center>
+    <b>
+        {% if not question %}
+        <h2>Post New Question</h2>
+        {% else %}
+        <h2>Edit Question</h2>
+        {% endif %}
+    </b></center>
+    <center>
+    <form action= "{{ form_action }}" method="POST">
+        <br>
+        <br>
+        <label>Question Title:</label>
+        <br>
+        <input type="text" name="title" required minlength="10" value="{{ question[4]}}">
+        <br>
+        <br>
+        <label>Question</label>
+        <br>
+        <textarea name="story" required minlength="10" rows="15" cols="97">{{ question[5] }}</textarea>
+        <br>
+        <br>
+        <br>
+        <input type="submit" value="{{ button_caption }}"  name="button" align="center"/>
+    </form>
+    </center>
+</body>
+</html>

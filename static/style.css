@@ -1,0 +1,176 @@
+html,
+body {
+    background-color: #ffffff;
+    font-size: 15px;
+    color: #565656;
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'open_sansregular';
+    font-weight: 300;
+}
+
+p {
+    margin: 0 0 15px;
+}
+
+ol,
+ul {
+    list-style: none;
+    padding: 0;
+}
+img {
+    max-width: 100%;
+}
+
+h1,
+h2,
+h3 {
+    font-family: 'Lane', sans-serif;
+    font-weight: 300;
+    margin: 0;
+}
+h4,
+h5 {
+    font-family: 'roboto', sans-serif;
+    font-weight: 300;
+    margin: 0;
+    line-height: 2rem;
+}
+h1 {
+    font-size: 3rem;
+    font-weight: 300;
+	line-height:inherit;
+}
+h2 {
+    font-size: 2.5rem;
+    margin-bottom: .9rem;
+	line-height:inherit;
+}
+h3 {
+    font-weight: 300;
+    margin-bottom: .9rem;
+    font-size: 2.1rem;
+    line-height: 2.5rem;
+}
+h4 {
+    font-size: 1.6rem;
+    line-height: 2.2rem;
+    margin-bottom: 1.1rem;
+}
+h5 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+h6 {
+    font-size: 1rem;
+    margin-bottom: .9rem;
+}
+p {
+    line-height: 1.5rem;
+    font-size: 1.1rem;
+	color:#9aa0ab;
+}
+
+table {
+    color: #333;
+    width: 640px;
+    border-collapse:
+    collapse; border-spacing: 0;
+    text-align: center;
+    margin-top: 5px;
+    margin-left: 0px;
+}
+
+
+
+h1 {
+    margin-top: 0px;
+    margin-bottom: 5px;
+}
+
+h3 {
+    font-size: 100%;
+    margin-bottom: 0px;
+}
+
+td, th {
+    border: 1px solid #acb1e2;
+}
+
+th {
+    white-space: nowrap;
+    background: #8893d8;
+    font-weight: bold;
+    padding: 10px 10px 10px 10px;
+}
+
+td {
+    word-wrap: break-word;
+    background: #FAFAFA;
+    text-align: center;
+    padding: 2px;
+}
+
+tr, td {
+    background: #F1F1F1;
+}
+
+tr:hover td {
+    background: #bfc7ff;
+}
+
+
+button:hover, input[type=submit]:hover {
+    background-color: #60d665;
+    color: black;
+}
+
+button, input[type=submit] {
+    background-color: #4CAF50;
+    border: 1px;
+    border-radius: 5px;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+textarea, input[type=text] {
+    width: 50%;
+    border-radius: 5px;
+    box-shadow: 0 0 0 1px #000;
+    border: 5px solid transparent;
+}
+
+textarea {
+    height: 80px;
+    padding: 0px 0px 0px 0px;
+}
+
+table tbody tr td a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.question_details{
+    background-color: rgba(222, 211, 62, 0.69);
+    border: none;
+    border-radius: 5px;
+    width: 60%;
+    padding: 15px;
+}
+
+.answers{
+    background-color: #c1cddc;
+    border: none;
+    border-radius: 5px;
+    width: 60%;
+    margin-top: 10px;
+    padding: 15px;
+}

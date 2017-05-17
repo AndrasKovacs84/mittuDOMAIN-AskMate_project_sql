@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>AskMate</title>
+</head>
+<body>
+    <h2>AskMate</h2>
+        <button name="new_question" onclick="location.href='/question/new'" type="button">Ask a question</button>
+
+    <table>
+        <tr>
+            {% for header in questions[0] %}
+                <!--Omit message text header-->
+                {% if loop.index != 6 %}
+                <th>{{ header }}</th>
+                {% endif %}
+            {% endfor %}
+            <th>View Question</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        {% for row in questions[1:] %}
+            <tr>
+                {% set outer_loop = loop %}
+                {% for data in row %}
+                    <!--Omit message text-->
+                    {% if loop.index != 6 %}
+                    <td>{{ data }}</td>
+                    {% endif %}
+                    {% if loop.index == questions[outer_loop.index]|length %}
+                    <td><button name="index_button" onclick="location.href='/question/{{ row[0] }}'" type="button">View</button></td>
+                    <td>  <a href="/question/{{ row[0] }}/edit"> <img src={{ url_for("static", filename="edit.png" ) }} alt="edit" width="30" height="30" title="edit"> </a> </td>
+                    <td>  <a href="/question/{{ row[0] }}/delete"> <img src={{ url_for("static", filename="delete.png") }} alt="delete" width="30" height="30" title="delete"> </a> </td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
