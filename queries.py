@@ -3,7 +3,7 @@ from connect import connect_to_sql
 
 
 @connect_to_sql
-def sql_select(query):
+def sql_select(cursor, query):
     '''Displays the query chosen by the user. Parameter is a dictionary of the relevant properties
     for a simple query. Returns the results of the query. data[0] = list of column names as header,
     data[1] = list of lists, where each nested list represents a row of data.'''
@@ -24,7 +24,7 @@ def sql_select(query):
 
 
 @connect_to_sql
-def sql_insert(query, data_to_insert):
+def sql_insert(cursor, data_to_insert):
     '''Inserts data into table. data_to_insert = {'table': 'tablename', 'columns': [list of columns],
     'values': [list_of_values]}. Function returns nothing.'''
     data = {'header': [],
@@ -37,15 +37,21 @@ def sql_insert(query, data_to_insert):
 
 
 @connect_to_sql
-def sql_update():
+def sql_update(cursor, data_to_update):
+    '''Updates existing record in the database. data_to_update = {'column':[list of column names],
+    'values':[list of values for each column] Returns nothing'''
+    update_values = []
+    for i in range(len(data_to_update['column'])):
+        update_values.append(str(data_to_update['column'][i]) + '=' + str(data_to_update['values'][i]))
+
     cur.execute(""" UPDATE {1}
                      SET {2}
                      WHERE {3}; 
-                     """.format(query['table']))
+                     """.format(data_to_update['table'], ', '.join(update_values), data_to_update['filter']))
 
 
 @connect_to_sql
-def sql_delete():
+def sql_delete(cursor, data_to_delete):
     cur.execute(""" DELETE FROM {1}
                     WHERE {2}
                 """.format(data_to_delete['table']), data_to_delete['filter']))
