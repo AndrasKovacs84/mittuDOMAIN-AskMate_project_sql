@@ -2,12 +2,12 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <title>{{ question[4] }}</title>
+    <title>{{ question['title'] }}</title>
 </head>
 <body>
     <div class="question_details">
-        <h2>{{ question[4] }}</h2>
-        <p> {{ question[5] }}</p>
+        <h2>{{ question.title }}</h2>
+        <p> {{ question.message }}</p>
     </div>
     <div class="answers">
         <h2>Answers</h2>

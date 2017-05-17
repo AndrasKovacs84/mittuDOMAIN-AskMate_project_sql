@@ -30,6 +30,16 @@ def new_question():
 
 @app.route('/question/<int:question_id>')
 def question(question_id, methods=['GET']):
+    """Displays question details"""
+    query = {'table': 'question', 'columns': '*', 'filter': 'id={0}'.format(question_id), 'order_by': 'submission_time'}
+    selected_question = queries.sql_select(query)
+    print(selected_question)
+    return render_template('question_details.html', question=selected_question)
+
+
+'''
+@app.route('/question/<int:question_id>')
+def question(question_id, methods=['GET']):
     """
     Displays the the requested question and the answers to it if they exist.
     We arrive here from '/',
@@ -47,6 +57,7 @@ def question(question_id, methods=['GET']):
         answer[DATA_TIME_INDEX] = data_manager.decode_time(answer[DATA_TIME_INDEX])
     return render_template('question_details.html', question=question,
                             answers=answers_for_question_id, answer_title=all_answers[0])
+'''
 
 
 @app.route('/question/<int:question_id>/new_answer', methods=['GET'])
