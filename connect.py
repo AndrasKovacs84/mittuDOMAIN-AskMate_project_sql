@@ -4,14 +4,14 @@ import personal_config
 
 def connect_to_sql(func):
     def with_connection(arg):
+        # setup connection string
+        connect_str = personal_config.my_connection()
+        # use our connection values to establish a connection
+        conn = psycopg2.connect(host=connect_str["host"],
+                                user=connect_str["user"],
+                                password=connect_str["passwd"],
+                                dbname=connect_str["dbname"])
         try:
-            # setup connection string
-            connect_str = personal_config.my_connection()
-            # use our connection values to establish a connection
-            conn = psycopg2.connect(host=connect_str["host"],
-                                    user=connect_str["user"],
-                                    password=connect_str["passwd"],
-                                    dbname=connect_str["dbname"])
             # set autocommit option, to do every query when we call it
             conn.autocommit = True
             # create a psycopg2 cursor that can execute queries
