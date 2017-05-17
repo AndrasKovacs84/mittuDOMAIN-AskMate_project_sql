@@ -20,7 +20,7 @@ def new_question():
     We arrive here from the list.html "ask question" button.
     Displays an empty question form.
     """
-    question = []
+    question = dict()
     form_action = '/question/new_id'
     button_caption = 'Post Question'
     return render_template('question_form.html', form_action=form_action,
@@ -76,7 +76,8 @@ def delete_question(question_id):
 
 @app.route('/question/<int:question_id>/edit', methods=['GET'])
 def edit_question_form(question_id):
-    question = common.lookup_item_by_id('data/question.csv', QUESTION_B64_COL, question_id)
+    id_query = "SELECT title, message FROM question WHERE id=(%s);" % (question_id)
+    question = queries.sql_empty_qry(id_query)
     form_action = '/question/' + str(question_id)
     button_caption = 'Update Question'
     return render_template("question_form.html", question=question, form_action=form_action, button_caption=button_caption)
