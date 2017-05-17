@@ -30,9 +30,14 @@ def sql_insert():
 
 @connect_to_sql
 def sql_update():
-    pass
+    cur.execute(""" UPDATE {1}
+                     SET {2}
+                     WHERE {3}; 
+                     """.format(query['table']))
 
 
 @connect_to_sql
 def sql_delete():
-    pass
+    cur.execute(""" DELETE FROM {1}
+                    WHERE {2}
+                """.format(data_to_delete['table']), data_to_delete['filter']))
