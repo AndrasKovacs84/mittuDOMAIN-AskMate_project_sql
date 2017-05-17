@@ -20,7 +20,7 @@ def new_question():
     We arrive here from the list.html "ask question" button.
     Displays an empty question form.
     """
-    question = dict()
+    question = {'result_set': [['', '']]}
     form_action = '/question/new_id'
     button_caption = 'Post Question'
     return render_template('question_form.html', form_action=form_action,
