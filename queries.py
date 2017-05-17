@@ -9,12 +9,19 @@ def sql_select(cursor, query):
     data[1] = list of lists, where each nested list represents a row of data.'''
     data = {'header': [],
             'result_set': []}
-    cursor.execute("""
-                   SELECT DISTINCT {1}
-                   FROM {0}
-                   WHERE {2}
-                   ORDER BY {3};
-                   """.format(query['table'], ", ".join(query['columns']), query['filter'], query['order_by']))
+    if query['filter'] is None:
+        cursor.execute("""
+                       SELECT {0}
+                       FROM {1}
+                       ORDER BY {2};
+                       """.format(query['columns'], query['table'], query[order_by]))
+    else:
+        cursor.execute("""
+                       SELECT DISTINCT {1}
+                       FROM {0}
+                       WHERE {2}
+                       ORDER BY {3};
+                       """.format(query['table'], ", ".join(query['columns']), query['filter'], query['order_by']))
     column_names = [desc[0] for desc in cursor.description]
     rows = cursor.fetchall()
 
@@ -31,7 +38,7 @@ def sql_insert(cursor, data_to_insert):
             'result_set': []}
     cursor.execute("""
                    INSERT INTO {0}({1})
-                   VALUES ({2})
+                   VALUES ({2});
                    """.format(data_to_insert['table'], ', '.join(data_to_insert['columns']),
                    ', '.join(data_to_insert['values'])))
 
@@ -44,7 +51,7 @@ def sql_update(cursor, data_to_update):
     for i in range(len(data_to_update['column'])):
         update_values.append(str(data_to_update['column'][i]) + '=' + str(data_to_update['values'][i]))
 
-    cur.execute(""" UPDATE {1}
+    cursor.execute(""" UPDATE {1}
                      SET {2}
                      WHERE {3}; 
                      """.format(data_to_update['table'], ', '.join(update_values), data_to_update['filter']))
@@ -52,6 +59,6 @@ def sql_update(cursor, data_to_update):
 
 @connect_to_sql
 def sql_delete(cursor, data_to_delete):
-    cur.execute(""" DELETE FROM {1}
-                    WHERE {2}
-                """.format(data_to_delete['table']), data_to_delete['filter']))
+    cursor.execute(""" DELETE FROM {1}
+                    WHERE {2};
+                """.format(data_to_delete['table'], data_to_delete['filter']))
