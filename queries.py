@@ -21,7 +21,7 @@ def sql_select(cursor, query):
                        FROM {0}
                        WHERE {2}
                        ORDER BY {3};
-                       """.format(query['table'], ", ".join(query['columns']), query['filter'], query['order_by']))
+                       """.format(query['table'], query['columns'], query['filter'], query['order_by']))
     column_names = [desc[0] for desc in cursor.description]
     rows = cursor.fetchall()
 
