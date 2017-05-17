@@ -3,7 +3,7 @@ import personal_config
 
 
 def connect_to_sql(func):
-    def with_connection():
+    def with_connection(arg):
         try:
             # setup connection string
             connect_str = personal_config.my_connection()
@@ -16,7 +16,7 @@ def connect_to_sql(func):
             conn.autocommit = True
             # create a psycopg2 cursor that can execute queries
             cursor = conn.cursor()
-            rv = func(cursor)
+            rv = func(cursor, arg)
         except Exception as e:
             print("Uh oh, can't connect. Invalid dbname, user or password?")
             print(e)

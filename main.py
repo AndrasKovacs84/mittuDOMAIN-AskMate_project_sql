@@ -10,7 +10,7 @@ app = Flask(__name__)
 def list_questions():
     '''Displays the list of questions.
     Loads data from question table, sorted by time.'''
-    query = {'table': 'question', 'columns': '*', 'filter': '', 'order_by': 'submission_time'}
+    query = {'table': 'question', 'columns': '*', 'filter': None, 'order_by': 'submission_time'}
     questions_table = queries.sql_select(query)
     return render_template('list.html', questions=questions_table)
 
