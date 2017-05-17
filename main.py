@@ -8,8 +8,9 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def list_questions():
-    '''Displays the list of questions.
+    ''' Displays the list of questions.
     Loads data from question table, sorted by time.'''
+
     query = {'table': 'question', 'columns': '*', 'filter': None, 'order_by': 'submission_time'}
     questions_table = queries.sql_select(query)
     return render_template('list.html', questions=questions_table)
@@ -62,13 +63,12 @@ def question(question_id, methods=['GET']):
 
 @app.route('/question/<int:question_id>/new_answer', methods=['GET'])
 def new_answer_form(question_id):
-    """
-    Displays empty form for entering an answer to the selected question (also displays question on top).
-    We arrive here from '/question/question_id/'
-    """
-    question = data_manager.get_datatable_from_file('data/question.csv', QUESTION_B64_COL)
-    question = common.search_row_by_id(question_id, question)
-    return render_template('answer_form.html', question=question)
+    ''' Displays empty form for entering an answer to the selected question (also displays question title on top).
+    We arrive here from '/question/question_id/' '''
+
+    query = 'SELECT title, message FROM question WHERE id = ' + str(question_id) + ';'
+    question_title = queries.sql_empty_qry(query)['result_set'][0]
+    return render_template('answer_form.html', question=question_title)
 
 
 @app.route('/question/new_id', methods=['POST'])
