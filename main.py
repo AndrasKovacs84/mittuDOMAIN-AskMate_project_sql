@@ -2,8 +2,6 @@ import queries
 
 from flask import Flask, render_template, request, url_for, redirect
 
-import common
-import data_manager
 
 app = Flask(__name__)
 
@@ -13,7 +11,7 @@ def list_questions():
     '''Displays the list of questions.
     Loads data from question table, sorted by time.'''
     query = {'table': 'question', 'columns': '*', 'filter': '', 'order_by': 'submission_time'}
-    questions_table = queries.select_statement(query)
+    questions_table = queries.sql_select(query)
     return render_template('list.html', questions=questions_table)
 
 

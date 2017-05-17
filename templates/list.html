@@ -10,7 +10,7 @@
 
     <table>
         <tr>
-            {% for header in questions[0] %}
+            {% for header in questions['header'] %}
                 <!--Omit message text header-->
                 {% if loop.index != 6 %}
                 <th>{{ header }}</th>
@@ -20,7 +20,7 @@
             <th>Edit</th>
             <th>Delete</th>
         </tr>
-        {% for row in questions[1:] %}
+        {% for row in questions['result_set'] %}
             <tr>
                 {% set outer_loop = loop %}
                 {% for data in row %}
@@ -28,11 +28,11 @@
                     {% if loop.index != 6 %}
                     <td>{{ data }}</td>
                     {% endif %}
-                    {% if loop.index == questions[outer_loop.index]|length %}
+                    <!--{% if loop.index == questions[outer_loop.index]|length %}-->
                     <td><button name="index_button" onclick="location.href='/question/{{ row[0] }}'" type="button">View</button></td>
                     <td>  <a href="/question/{{ row[0] }}/edit"> <img src={{ url_for("static", filename="edit.png" ) }} alt="edit" width="30" height="30" title="edit"> </a> </td>
                     <td>  <a href="/question/{{ row[0] }}/delete"> <img src={{ url_for("static", filename="delete.png") }} alt="delete" width="30" height="30" title="delete"> </a> </td>
-                    {% endif %}
+                    <!--{% endif %}-->
                 {% endfor %}
             </tr>
         {% endfor %}
