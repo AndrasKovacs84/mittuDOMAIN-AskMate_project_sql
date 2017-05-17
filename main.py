@@ -68,7 +68,7 @@ def new_answer_form(question_id):
 
     query = 'SELECT title, message FROM question WHERE id = ' + str(question_id) + ';'
     question_title = queries.sql_empty_qry(query)['result_set'][0]
-    return render_template('answer_form.html', question=question_title)
+    return render_template('answer_form.html', question=question_title, question_id=question_id)
 
 
 @app.route('/question/new_id', methods=['POST'])
