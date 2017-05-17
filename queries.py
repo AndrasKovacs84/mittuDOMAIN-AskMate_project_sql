@@ -68,8 +68,7 @@ def sql_delete(cursor, data_to_delete):
 def sql_empty_qry(cursor, query):
     data = {'header': [],
             'result_set': []}
-    if query['filter'] is None:
-        cursor.execute("""{0}""".format(query))
+    cursor.execute("""{0}""".format(query))
     column_names = [desc[0] for desc in cursor.description]
     rows = cursor.fetchall()
     data['header'] = column_names
