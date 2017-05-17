@@ -8,12 +8,13 @@ from datetime import datetime
 # @req_form: dictionary from html form
 def get_new_question_values(req_form):
     local_time = datetime.now()
+    print(local_time)
     view_number = "0"
     vote_number = "0"
     title = req_form["title"]
     data_form_story = req_form["story"]
     image = ""
-    new_question = [local_time, view_number, vote_number,
+    new_question = [str(local_time)[:-7], view_number, vote_number,
                     title, data_form_story, image]
     return new_question
 
@@ -28,6 +29,6 @@ def get_new_answer(req_form, question_id):
     view_number = "0"
     message = req_form["answer"]
     image = ""
-    new_answer = [local_time, view_number, question_id,
+    new_answer = [str(local_time)[:-7], view_number, question_id,
                   message, image]
     return new_answer
