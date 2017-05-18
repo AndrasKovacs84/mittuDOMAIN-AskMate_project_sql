@@ -207,6 +207,7 @@ def sql_insert_answer(cursor, init_answer, question_id):
                    """.format(init_answer[0], init_answer[1], question_id, init_answer[2]))
 
 
+@connect_to_sql
 def sql_gather_question_comments(cursor, question_id):
     data = {'header': [],
             'result_set': []}

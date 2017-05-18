@@ -27,8 +27,8 @@ def new_question():
                            question=question, button_caption=button_caption)
 
 
-@app.route('/question/<int:question_id>')
-def question(question_id, methods=['GET']):
+@app.route('/question/<int:question_id>', methods=['GET'])
+def question(question_id):
     """Based on the question_id in the url, increases view_count by 1, then a select satement retrieves the
     relevant data for the question with the id. Another query collects all the associated answers, then the
     page is rendered with the two parts."""
