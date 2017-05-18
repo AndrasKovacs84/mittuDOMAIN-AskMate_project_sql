@@ -66,7 +66,7 @@ def sql_get_question_text(cursor, question_id):
                    SELECT title, message FROM question WHERE id = '{0}';
                    """.format(question_id)
                    )
-    return cursor.fetchall()
+    return cursor.fetchall()[0]
 
 
 @connect_to_sql

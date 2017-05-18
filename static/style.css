@@ -1,6 +1,6 @@
 body {
     background-color: #ffffff;
-    background: url(bg_pattern.jpg);
+    background: url(background.png);
     font-size: 15px;
     color: #565656;
     width: 100%;
@@ -127,7 +127,7 @@ table tbody tr td a {
 }
 
 .question_details{
-    background-color: rgba(222, 211, 62, 0.69);
+    background-color: rgba(16, 48, 53, 0.69);
     border: none;
     border-radius: 5px;
     width: 60%;
