@@ -59,7 +59,8 @@ def question(question_id):
     question_comments = queries.sql_gather_question_comments(question_id)
     answers = queries.sql_answers_to_question(question_id)
     selected_question = queries.sql_question_details(question_id)
-    print(answers)  # TODO: is this needed?
+    # TODO: is this needed?
+    print(answers)
     return render_template('question_details.html',
                            question=selected_question,
                            question_id=question_id,
@@ -126,6 +127,7 @@ def edit_question_form(question_id):
     question = queries.sql_question_details(question_id)
     form_action = '/question/' + str(question_id)
     button_caption = 'Update Question'
+    # TODO: is this still needed?
     print(question)
     return render_template("question_form.html",
                            question=question,
@@ -159,6 +161,7 @@ def insert_question_comment(question_id):
 def add_comment_to_answer(answer_id):
     answer = queries.sql_answer_details(answer_id)
     answer['type'] = 'answer'
+    # TODO: is this still needed?
     print(answer)
     return render_template('comment_form.html', data=answer)
 
