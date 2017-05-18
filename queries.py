@@ -180,15 +180,15 @@ def sql_update_question_details(cursor, new_question_details):
 
 
 @connect_to_sql
-<<<<<<< HEAD
 def delete_comment(question_id, ):
-    cursor.execute(""" DELETE FROM comment WHERE question_id = {1}; """
+    cursor.execute(""" DELETE FROM comment WHERE question_id = {1}; """.format(question_id))
 
 
 @connect_to_sql
-def delete_asnwer(answer_id,):
-     cursor.execute(""" DELETE FROM answer WHERE question_id = {1}; """)
-=======
+def delete_answer(answer_id,):
+    cursor.execute(""" DELETE FROM answer WHERE question_id = {1}; """.format(question_id))
+
+
 def sql_insert_new_question(cursor, question_values):
     cursor.execute("""
                    INSERT INTO question(submission_time, view_number, vote_number, title, message)
@@ -202,7 +202,7 @@ def sql_insert_new_question(cursor, question_values):
 @connect_to_sql
 def sql_select_latest_question(cursor):
     cursor.execute("""
-                   SELECT max(id) 
+                   SELECT max(id)
                    FROM question
                    """)
     row = cursor.fetchall()
@@ -235,5 +235,3 @@ def sql_gather_question_comments(cursor, question_id):
     data['result_set'] = rows
     return data
 
-
->>>>>>> d635e13dc55ab429f2d9f5f470f6ce7c75286766
