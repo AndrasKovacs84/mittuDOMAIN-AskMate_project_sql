@@ -8,7 +8,27 @@
     <div class="question_details">
         <h2>{{ question.title }}</h2>
         <p> {{ question.message }}</p>
+        <td><button name="index_button" onclick="location.href='/question/{{ question.id }}/new-comment'" type="button">Add comment to question</button></td>
     </div>
+    {% if question_comments.result_set|length %}
+    <div class="question_comments">
+        <h2>Comments to question</h2>
+        <table>
+            <thead>
+                {% for header in question_comments.header %}
+                    <th>{{ header }}</th>
+                {% endfor %}
+            </thead>
+            {% for comment in question_comments.result_set %}
+            <tr>
+                {% for item in comment %}
+                <td>{{ item }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif %}
     <div class="answers">
         <h2>Answers</h2>
         <table>
@@ -18,13 +38,23 @@
                         <th>{{ header }}</th>
                     {% endfor %}
                 </thead>
-                {% for answer in answers.result_set %}
+                {% for row in answers.result_set %}
                 <tr>
-                    {% for item in answer %}
+                    {% for item in row.answer %}
                     <td>{{ item }}</td>
                     {% endfor %}
+                    <td><button name="index_button" onclick="location.href='/answer/{{ row }}/new-comment'" type="button">Add comment</button></td>
                 </tr>
                 {% endfor %}
+                <table>
+                    {% if answers.result_set.comments|length %}
+                        <tr>
+                            {% for comment in answers.result_set.comments %}
+                                <td>{{ comment }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endif %}
+                </table>
                 {% else %}
                 <h3 style="color: black">Be the first on the InterWeb who has the answer for this Question!</h3>
             {% endif %}
@@ -32,7 +62,7 @@
     </div>
     <br>
     <br>
-    <button name="answer_form" onclick="location.href='/question/{{ question[0] }}/new_answer'" type="button">Answer this question</button>
+    <button name="answer_form" onclick="location.href='/question/{{ question.id }}/new_answer'" type="button">Answer this question</button>
     <button name="index" onclick="location.href='/'" type="button">Back to Index</button>
 </body>
 </html>

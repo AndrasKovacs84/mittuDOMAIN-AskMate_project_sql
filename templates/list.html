@@ -32,8 +32,10 @@
                         {% endif %}
                         {% if loop.index == row|length %}
                         <td><button name="index_button" onclick="location.href='/question/{{ row[0] }}'" type="button">View</button></td>
+                        <!--<a href="/question/{{ row[0] }}/delete"> <img src={{ url_for("static", filename="delete.png") }} alt="delete" width="30" height="30" title="delete">-->
                         <td>  <a href="/question/{{ row[0] }}/edit"> <img src={{ url_for("static", filename="edit.png" ) }} alt="edit" width="30" height="30" title="edit"> </a> </td>
-                        <td>  <a href="/question/{{ row[0] }}/delete"> <img src={{ url_for("static", filename="delete.png") }} alt="delete" width="30" height="30" title="delete"> </a> </td>
+                        <td><form  action="/question/{{ row[0] }}/delete" method="POST" name="delete_button">
+                            <input type="submit" value="Delete"> </form></td>
                         {% endif %}
                     {% endfor %}
                 </tr>
