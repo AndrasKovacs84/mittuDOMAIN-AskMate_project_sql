@@ -69,19 +69,10 @@ def new_answer(question_id):
 def new_question_id():
     button_value = request.form["button"]
     if button_value == "Post Question":
-        new_question = helper.get_new_question_values(request.form)
-        data_to_insert = {'table': 'tablename', 
-                          'columns': ['submission_time', 'view_number', 'vote_number', 'title', 'message', 'image'], 
-                          'values': new_question}
-        queries.sql_insert(data_to_insert)
-        id_query = "SELECT max(id) FROM question;"
-        new_question = queries.sql_empty_qry(id_query)
+        new_question = helper.init_question_values(request.form)
+        new_question_id = queries.sql_insert_new_question(new_question)
         print(new_question)
-        return redirect("/question/" + str(int(new_question['result_set'][0][0])))
-    if button_value.isdigit():
-        data = data_manager.get_datatable_from_file('data/answer.csv', ANSWER_B64_COL)
-        new_answer = helper.get_new_answer(data, request.form, button_value)
-        return redirect("/question/" + button_value)
+        return redirect("/question/" + str(int(new_question_id)))
 
 
 @app.route('/question/<int:question_id>/delete', methods=['GET'])
