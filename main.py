@@ -38,6 +38,18 @@ def question(question_id, methods=['GET']):
     return render_template('question_details.html', question=selected_question, answers=answers)
 
 
+@app.route('/question/<int:question_id>', methods=['POST'])
+def update_question(question_id):
+    question_to_update = {'id': None,
+                          'title': None,
+                          'message': None}
+    question_to_update['id'] = question_id
+    question_to_update['title'] = "'" + request.form['title'].replace("'", "''") + "'"
+    question_to_update['message'] = "'" + request.form['story'].replace("'", "''") + "'"
+    queries.sql_update_question_details(question_to_update)
+    return redirect('/question/' + str(question_id))
+
+
 @app.route('/question/<int:question_id>/new_answer', methods=['GET'])
 def new_answer_form(question_id):
     ''' Displays empty form for entering an answer to the selected question (also displays question title on top).
@@ -83,16 +95,6 @@ def edit_question_form(question_id):
     return render_template("question_form.html", question=question, form_action=form_action, button_caption=button_caption)
 
 
-@app.route('/question/<int:question_id>', methods=['POST'])
-def update_question(question_id):
-    questions = data_manager.get_datatable_from_file('data/question.csv', QUESTION_B64_COL)
-    for question in questions:
-        if question[0] == str(question_id):
-            question[4] = request.form["title"]
-            question[5] = request.form['story']
-            break
-    data_manager.write_datatable_to_file('data/question.csv', questions, QUESTION_B64_COL)
-    return redirect('/question/' + str(question_id))
 
 
 if __name__ == '__main__':

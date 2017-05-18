@@ -150,3 +150,12 @@ def sql_answers_to_question(cursor, question_id):
     data['result_set'] = rows
     print(data)
     return data
+
+
+@connect_to_sql
+def sql_update_question_details(cursor, new_question_details):
+    cursor.execute("""
+                   UPDATE question
+                   SET title = {0}, message = {1}
+                   WHERE id = {2}
+                   """.format(new_question_details['title'], new_question_details['message'], new_question_details['id']))
