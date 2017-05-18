@@ -1,5 +1,5 @@
 import queries
-import common
+import helper
 from flask import Flask, render_template, request, url_for, redirect
 
 
@@ -52,7 +52,7 @@ def new_answer_form(question_id):
 def new_question_id():
     button_value = request.form["button"]
     if button_value == "Post Question":
-        new_question = common.get_new_question_values(request.form)
+        new_question = helper.get_new_question_values(request.form)
         data_to_insert = {'table': 'tablename', 
                           'columns': ['submission_time', 'view_number', 'vote_number', 'title', 'message', 'image'], 
                           'values': new_question}
@@ -63,14 +63,14 @@ def new_question_id():
         return redirect("/question/" + str(int(new_question['result_set'][0][0])))
     if button_value.isdigit():
         data = data_manager.get_datatable_from_file('data/answer.csv', ANSWER_B64_COL)
-        new_answer = common.get_new_answer(data, request.form, button_value)
+        new_answer = helper.get_new_answer(data, request.form, button_value)
         return redirect("/question/" + button_value)
 
 
 @app.route('/question/<int:question_id>/delete', methods=['GET'])
 def delete_question(question_id):
-    common.delete_data_by_id('data/question.csv', question_id, QUESTION_B64_COL, 0)
-    common.delete_data_by_id('data/answer.csv', question_id, ANSWER_B64_COL, 3)
+    helper.delete_data_by_id('data/question.csv', question_id, QUESTION_B64_COL, 0)
+    helper.delete_data_by_id('data/answer.csv', question_id, ANSWER_B64_COL, 3)
     return redirect("/")
 
 
