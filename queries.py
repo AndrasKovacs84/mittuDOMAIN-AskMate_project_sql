@@ -53,7 +53,7 @@ def sql_update(cursor, data_to_update):
 
     cursor.execute(""" UPDATE {1}
                      SET {2}
-                     WHERE {3}; 
+                     WHERE {3};
                      """.format(data_to_update['table'], ', '.join(update_values), data_to_update['filter']))
 
 

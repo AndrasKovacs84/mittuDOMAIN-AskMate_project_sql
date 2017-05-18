@@ -11,12 +11,17 @@
     <div class="list_body">
         <button name="new_question" onclick="location.href='/question/new'" type="button">Ask a question</button>
         <button name="{{ form_action }}" onclick="location.href='{{ form_action }}'" type="button">{{ button_caption }}</button>
-        <table maxlength="20" >
+        <table maxlength="20">
             <tr>
                 {% for header in questions['header'] %}
                     <!--Omit message text header-->
                     {% if loop.index != 6 %}
-                    <th>{{ header }}</th>
+                    <th>
+                        {{ header }}
+                        <br>
+                        <a href="/dummy_url"> <img src={{ url_for("static", filename="arrow_up.ico" ) }} alt="Ascending order" width="30" height="30" title="Ascending order"></a>
+                        <a href="/dummy_url"> <img src={{ url_for("static", filename="arrow_down.ico" ) }} alt="Descending order" width="30" height="30" title="Descending order"></a>
+                    </th>
                     {% endif %}
                 {% endfor %}
                 <th>View Question</th>
