@@ -15,8 +15,11 @@ def list_questions():
     questions_table = queries.sql_get_latest_question()
     form_action = '/list'
     button_caption = 'Every question'
-    return render_template('list.html', form_action=form_action,
-                           questions=questions_table, button_caption=button_caption)
+    return render_template('list.html',
+                           form_action=form_action,
+                           questions=questions_table,
+                           button_caption=button_caption
+                           )
 
 
 @app.route('/list', methods=['GET'])
@@ -24,8 +27,11 @@ def latest_five():
     questions_table = queries.sql_list_questions()
     form_action = '/'
     button_caption = 'Back to index'
-    return render_template('list.html', form_action=form_action,
-                           questions=questions_table, button_caption=button_caption)
+    return render_template('list.html',
+                           form_action=form_action,
+                           questions=questions_table,
+                           button_caption=button_caption
+                           )
 
 
 @app.route('/question/new', methods=['GET'])
@@ -36,8 +42,11 @@ def new_question():
     question = {'result_set': [['', '']]}
     form_action = '/question/new_id'
     button_caption = 'Post Question'
-    return render_template('question_form.html', form_action=form_action,
-                           question=question, button_caption=button_caption)
+    return render_template('question_form.html',
+                           form_action=form_action,
+                           question=question,
+                           button_caption=button_caption
+                           )
 
 
 @app.route('/question/<int:question_id>', methods=['GET'])
@@ -50,8 +59,14 @@ def question(question_id):
     question_comments = queries.sql_gather_question_comments(question_id)
     answers = queries.sql_answers_to_question(question_id)
     selected_question = queries.sql_question_details(question_id)
+    # TODO: is this needed?
     print(answers)
-    return render_template('question_details.html', question=selected_question, question_id=question_id, answers=answers, question_comments=question_comments)
+    return render_template('question_details.html',
+                           question=selected_question,
+                           question_id=question_id,
+                           answers=answers,
+                           question_comments=question_comments
+                           )
 
 
 @app.route('/question/<int:question_id>', methods=['POST'])
@@ -72,7 +87,9 @@ def new_answer_form(question_id):
     We arrive here from '/question/question_id/'
     """
     return render_template('answer_form.html',
-                           question=queries.sql_get_question_text(question_id), question_id=question_id)
+                           question=queries.sql_get_question_text(question_id),
+                           question_id=question_id
+                           )
 
 
 @app.route('/answer/new_id', methods=['POST'])
@@ -115,8 +132,13 @@ def edit_question_form(question_id):
     question = queries.sql_question_details(question_id)
     form_action = '/question/' + str(question_id)
     button_caption = 'Update Question'
+    # TODO: is this still needed?
     print(question)
-    return render_template("question_form.html", question=question, form_action=form_action, button_caption=button_caption)
+    return render_template("question_form.html",
+                           question=question,
+                           form_action=form_action,
+                           button_caption=button_caption
+                           )
 
 
 @app.route('/question/<question_id>/new-comment', methods=['GET'])
@@ -144,6 +166,7 @@ def insert_question_comment(question_id):
 def add_comment_to_answer(answer_id):
     answer = queries.sql_answer_details(answer_id)
     answer['type'] = 'answer'
+    # TODO: is this still needed?
     print(answer)
     return render_template('comment_form.html', data=answer)
 
