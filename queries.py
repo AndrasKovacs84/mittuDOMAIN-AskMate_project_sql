@@ -260,3 +260,35 @@ def sql_gather_question_comments(cursor, question_id):
     data['result_set'] = rows
     return data
 
+
+@connect_to_sql
+def sql_edit_question(cursor, question_id):
+    cursor.execute("""
+                   SELECT title, message
+                   FROM question
+                   WHERE id=(%s);
+                   """ % (question_id))
+    return cursor.fetchall()
+
+
+@connect_to_sql
+def sql_get_latest_question(cursor):
+    data = {'header': [],
+            'result_set': []}
+    cursor.execute("""
+                   SELECT id AS "Id",
+                   submission_time AS "Submission time",
+                   view_number AS "View number",
+                   vote_number AS "Vote number",
+                   title AS "Title",
+                   message AS "Message",
+                   image AS "Image"
+                   FROM question
+                   ORDER BY submission_time DESC
+                   LIMIT 5
+                   """)
+    column_names = [desc[0] for desc in cursor.description]
+    rows = cursor.fetchall()
+    data['header'] = column_names
+    data['result_set'] = rows
+    return data

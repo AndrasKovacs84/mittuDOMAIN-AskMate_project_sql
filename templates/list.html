@@ -10,7 +10,7 @@
     </div>
     <div class="list_body">
         <button name="new_question" onclick="location.href='/question/new'" type="button">Ask a question</button>
-
+        <button name="{{ form_action }}" onclick="location.href='{{ form_action }}'" type="button">{{ button_caption }}</button>
         <table maxlength="20" >
             <tr>
                 {% for header in questions['header'] %}

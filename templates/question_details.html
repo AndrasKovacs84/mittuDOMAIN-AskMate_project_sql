@@ -34,8 +34,8 @@
         <table>
             {% if answers.result_set|length %}
                 <thead>
-                    {% for header in answers.header %}
-                        <th>{{ header }}</th>
+                    {% for column_name in answers.header %}
+                        <th>{{ column_name }}</th>
                     {% endfor %}
                 </thead>
                 {% for row in answers.result_set %}
@@ -43,9 +43,10 @@
                     {% for item in row.answer %}
                     <td>{{ item }}</td>
                     {% endfor %}
-                    <td><button name="index_button" onclick="location.href='/answer/{{ row }}/new-comment'" type="button">Add comment</button></td>
+                    {% if loop.index != row|length %}
+                    <td><button name="index_button" onclick="location.href='/answer/{{ row.answer[0] }}/new-comment'" type="button">Add comment1</button></td>
+                    {% endif %}
                 </tr>
-                {% endfor %}
                 <table>
                     {% if answers.result_set.comments|length %}
                         <tr>
@@ -55,6 +56,7 @@
                         </tr>
                     {% endif %}
                 </table>
+                {% endfor %}
                 {% else %}
                 <h3 style="color: black">Be the first on the InterWeb who has the answer for this Question!</h3>
             {% endif %}
