@@ -79,11 +79,14 @@ def new_question_id():
         return redirect("/question/" + button_value)
 
 
-@app.route('/question/<int:question_id>/delete', methods=['GET'])
+@app.route('/question/<int:question_id>/delete', methods=['POST'])
 def delete_question(question_id):
-    common.delete_data_by_id('data/question.csv', question_id, QUESTION_B64_COL, 0)
-    common.delete_data_by_id('data/answer.csv', question_id, ANSWER_B64_COL, 3)
-    return redirect("/")
+    button_value = request.form["button"]
+    if button_value == "Delete Question":
+        data_to_delete = {'id' : None,}
+        data_to_delete['id'] = question_id
+        queries.sql_delete(data_to_delete)
+        return redirect("/")
 
 
 @app.route('/question/<int:question_id>/edit', methods=['GET'])
