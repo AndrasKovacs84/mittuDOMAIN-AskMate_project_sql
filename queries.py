@@ -57,11 +57,7 @@ def sql_update(cursor, data_to_update):
                      """.format(data_to_update['table'], ', '.join(update_values), data_to_update['filter']))
 
 
-@connect_to_sql
-def sql_delete(cursor, data_to_delete):
-    cursor.execute(""" DELETE FROM {1}
-                    WHERE {2};
-                """.format(data_to_delete['table'], data_to_delete['filter']))
+
 
 
 @connect_to_sql
@@ -180,13 +176,42 @@ def sql_update_question_details(cursor, new_question_details):
 
 
 @connect_to_sql
-def delete_comment(question_id, ):
-    cursor.execute(""" DELETE FROM comment WHERE question_id = {1}; """.format(question_id))
+def sql_delete_comment(cursor, question_id):
+    cursor.execute(""" DELETE FROM comment WHERE question_id = '{0}'; """.format(question_id))
 
 
 @connect_to_sql
-def delete_answer(answer_id,):
-    cursor.execute(""" DELETE FROM answer WHERE question_id = {1}; """.format(question_id))
+def sql_delete_answer(cursor, question_id,):
+    cursor.execute(""" DELETE FROM answer WHERE question_id = '{0}'; """.format(question_id))
+
+
+
+@connect_to_sql
+def  sql_delete_question(cursor, question_id):
+    cursor.execute(""" DELETE FROM question WHERE id = '{0}'; """.format(question_id))
+
+
+@connect_to_sql
+def sql_delete_question_tag(cursor, question_id):
+    cursor.execute(""" DELETE FROM question_tag WHERE question_id = '{0}'; """.format(question_id))
+
+
+@connect_to_sql
+def sql_select_answer_comments(cursor, answer_id):
+    cursor.execute(""" SELECT id FROM comment WHERE answer_id = '{0}' """.format(answer_id))
+    row = cursor.fetchall()
+    sql_delete_comments_from_answer(row)
+
+
+
+
+@connect_to_sql
+def sql_delete_comments_from_answer(cursor, select_answer_comment):
+    cursor.execute(""" DELETE FROM comment WHERE id ='{0}' """. format(select_answer_comment))
+
+
+
+
 
 
 def sql_insert_new_question(cursor, question_values):
