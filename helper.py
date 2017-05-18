@@ -24,11 +24,8 @@ def init_question_values(req_form):
 #
 # @req_form: dictionary from html form
 # @question_id: int - index of the question
-def init_answer_values(req_form, question_id):
+def init_answer_values(message):
     local_time = datetime.now()
-    view_number = "0"
-    message = req_form["answer"]
-    image = ""
-    new_answer = [str(local_time)[:-7], view_number, question_id,
-                  message, image]
+    vote_number = "0"
+    new_answer = [str(local_time)[:-7], vote_number, message]
     return new_answer
