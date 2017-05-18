@@ -167,7 +167,6 @@ def sql_gather_comments_for_answer(cursor, answer_id):
                    WHERE answer_id = {0}
                    """.format(answer_id))
     comments = cursor.fetchall()
-    print("comments:", comments)
     return comments
 
 

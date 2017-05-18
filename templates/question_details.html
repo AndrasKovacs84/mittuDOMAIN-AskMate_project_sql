@@ -45,6 +45,7 @@
                     {% endfor %}
                     <td><button name="index_button" onclick="location.href='/answer/{{ row }}/new-comment'" type="button">Add comment</button></td>
                 </tr>
+                {% endfor %}
                 <table>
                     {% if answers.result_set.comments|length %}
                         <tr>
@@ -54,7 +55,6 @@
                         </tr>
                     {% endif %}
                 </table>
-                {% endfor %}
                 {% else %}
                 <h3 style="color: black">Be the first on the InterWeb who has the answer for this Question!</h3>
             {% endif %}
