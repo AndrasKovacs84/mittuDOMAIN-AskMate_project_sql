@@ -9,9 +9,22 @@ app = Flask(__name__)
 @app.route('/', methods=['GET'])
 def list_questions():
     ''' Displays the list of questions.
-    Loads data from question table, sorted by time.'''
-    questions_table = queries.sql_list_questions()  # Query can accept a variable to order by, default: sort='submission_time DESC'
-    return render_template('list.html', questions=questions_table)
+    Loads data from question table, sorted by time.
+    Query can accept a variable to order by, default: sort='submission_time DESC'''
+    questions_table = queries.sql_get_latest_question()
+    form_action = '/list'
+    button_caption = 'Every question'
+    return render_template('list.html', form_action=form_action,
+                           questions=questions_table, button_caption=button_caption)
+
+
+@app.route('/list', methods=['GET'])
+def latest_five():
+    questions_table = queries.sql_list_questions()
+    form_action = '/'
+    button_caption = 'Back to index'
+    return render_template('list.html', form_action=form_action,
+                           questions=questions_table, button_caption=button_caption)
 
 
 @app.route('/question/new', methods=['GET'])
@@ -91,8 +104,7 @@ def delete_question(question_id):
 
 @app.route('/question/<int:question_id>/edit', methods=['GET'])
 def edit_question_form(question_id):
-    id_query = "SELECT title, message FROM question WHERE id=(%s);" % (question_id)
-    question = queries.sql_empty_qry(id_query)
+    question = queries.sql_edit_question(question_id)
     form_action = '/question/' + str(question_id)
     button_caption = 'Update Question'
     return render_template("question_form.html", question=question, form_action=form_action, button_caption=button_caption)
