@@ -235,3 +235,36 @@ def sql_gather_question_comments(cursor, question_id):
     data['result_set'] = rows
     return data
 
+
+@connect_to_sql
+def sql_insert_comment(cursor, comment):
+    cursor.execute("""
+                   INSERT INTO comment ({0}, message, submission_time)
+                   VALUES ({1}, {2}, {3});
+                   """.format(comment['foreign_key'], 
+                              comment['foreign_key_value'], 
+                              comment['message'], 
+                              comment['submission_time']))
+
+
+@connect_to_sql
+def sql_answer_details(cursor, answer_id):
+    cursor.execute("""
+                   SELECT
+                   id AS "Id",
+                   submission_time AS "Submission time",
+                   vote_number AS "Vote number",
+                   question_id AS "Question id",
+                   message AS "Message",
+                   image AS "Image"
+                   FROM answer
+                   WHERE id={0}
+                   """.format(answer_id))
+    result = cursor.fetchall()
+    answer = {'id': result[0][0],
+              'submission_time': result[0][1],
+              'vote_number': result[0][2],
+              'question_id': result[0][3],
+              'message': result[0][4],
+              'image': result[0][5]}
+    return answer

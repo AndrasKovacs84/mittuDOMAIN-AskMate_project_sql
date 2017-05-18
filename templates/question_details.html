@@ -49,11 +49,13 @@
                 </tr>
                 <table>
                     {% if answers.result_set.comments|length %}
-                        <tr>
-                            {% for comment in answers.result_set.comments %}
-                                <td>{{ comment }}</td>
+                        {% for comment in answers.result_set.comments %}
+                            <tr>
+                            {% for column in comment %}        
+                                <td>{{ column }}</td>
                             {% endfor %}
-                        </tr>
+                            </tr>
+                        {% endfor %}
                     {% endif %}
                 </table>
                 {% endfor %}

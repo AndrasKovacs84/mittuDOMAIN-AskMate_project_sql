@@ -1,7 +1,7 @@
 import queries
 import helper
 from flask import Flask, render_template, request, url_for, redirect
-
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -35,8 +35,8 @@ def question(question_id):
     queries.sql_update_question_view_count(question_id)
     question_comments = queries.sql_gather_question_comments(question_id)
     answers = queries.sql_answers_to_question(question_id)
-    # answer_comments = queries.sql_gather_answer_comments(answer_id_list)
     selected_question = queries.sql_question_details(question_id)
+    print(answers)
     return render_template('question_details.html', question=selected_question, question_id=question_id, answers=answers, question_comments=question_comments)
 
 
@@ -96,6 +96,50 @@ def edit_question_form(question_id):
     form_action = '/question/' + str(question_id)
     button_caption = 'Update Question'
     return render_template("question_form.html", question=question, form_action=form_action, button_caption=button_caption)
+
+
+@app.route('/question/<question_id>/new-comment', methods=['GET'])
+def add_comment_to_question(question_id):
+    question = queries.sql_question_details(question_id)
+    question['type'] = 'question'
+    return render_template('comment_form.html', data=question)
+
+
+@app.route('/question/<question_id>/add_comment', methods=['POST'])
+def insert_question_comment(question_id):
+    comment = {'message': '',
+               'foreign_key': '',
+               'foreign_key_value': '',
+               'submission_time': ''}
+    comment['message'] = "'" + str(request.form['comment']).replace("'", "''") + "'"
+    comment['foreign_key'] = 'question_id'
+    comment['foreign_key_value'] = question_id
+    comment['submission_time'] = "'" + str(datetime.now())[:-7] + "'"
+    queries.sql_insert_comment(comment)
+    return redirect('/question/' + str(question_id))
+
+
+@app.route('/answer/<answer_id>/new-comment', methods=['GET'])
+def add_comment_to_answer(answer_id):
+    answer = queries.sql_answer_details(answer_id)
+    answer['type'] = 'answer'
+    print(answer)
+    return render_template('comment_form.html', data=answer)
+
+
+@app.route('/answer/<answer_id>/add_comment', methods=['POST'])
+def insert_answer_comment(answer_id):
+    comment = {'message': '',
+               'foreign_key': '',
+               'foreign_key_value': '',
+               'submission_time': ''}
+    comment['message'] = "'" + str(request.form['comment']).replace("'", "''") + "'"
+    comment['foreign_key'] = 'answer_id'
+    comment['foreign_key_value'] = answer_id
+    comment['submission_time'] = "'" + str(datetime.now())[:-7] + "'"
+    queries.sql_insert_comment(comment)
+    answer = queries.sql_answer_details(answer_id)
+    return redirect('/question/' + str(answer['question_id']))
 
 
 if __name__ == '__main__':

@@ -29,3 +29,8 @@ def init_answer_values(message):
     vote_number = "0"
     new_answer = [str(local_time)[:-7], vote_number, message]
     return new_answer
+
+
+def init_comment_values(comment, foreign_key):
+    entry = {'foreign_key': foreign_key,
+             'foreign_key_value': ''}
