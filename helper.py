@@ -6,7 +6,7 @@ from datetime import datetime
 # SQL talbe title: ID;Submisson Time;View Number;Vote Number;Title;Message;Image
 #
 # @req_form: dictionary from html form
-def get_new_question_values(req_form):
+def init_question_values(req_form):
     local_time = datetime.now()
     print(local_time)
     view_number = "0"
@@ -24,7 +24,7 @@ def get_new_question_values(req_form):
 #
 # @req_form: dictionary from html form
 # @question_id: int - index of the question
-def get_new_answer(req_form, question_id):
+def init_answer_values(req_form, question_id):
     local_time = datetime.now()
     view_number = "0"
     message = req_form["answer"]
