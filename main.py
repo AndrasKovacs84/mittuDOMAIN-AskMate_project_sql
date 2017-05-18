@@ -107,9 +107,10 @@ def delete_question(question_id):
 
 @app.route('/question/<int:question_id>/edit', methods=['GET'])
 def edit_question_form(question_id):
-    question = queries.sql_edit_question(question_id)
+    question = queries.sql_question_details(question_id)
     form_action = '/question/' + str(question_id)
     button_caption = 'Update Question'
+    print(question)
     return render_template("question_form.html", question=question, form_action=form_action, button_caption=button_caption)
 
 

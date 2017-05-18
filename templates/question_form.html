@@ -2,7 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    {% if not question.result_set[0][0] %}
+    {% if not question.title %}
     <title>Post New Question</title>
     {% else %}
     <title>Edit Question</title>
@@ -12,7 +12,7 @@
     <div class="list_body">
         <center>
         <b>
-            {% if not question.result_set[0][0] %}
+            {% if not question.title %}
             <h2>Post New Question</h2>
             {% else %}
             <h2>Edit Question</h2>
@@ -24,12 +24,12 @@
             <br>
             <label>Question Title:</label>
             <br>
-            <input type="text" name="title" required minlength="10" value="{{ question['result_set'][0][0] }}">
+            <input type="text" name="title" required minlength="10" value="{{ question.title }}">
             <br>
             <br>
             <label>Question</label>
             <br>
-            <textarea name="story" required minlength="10" rows="15" cols="97">{{ question.result_set[0][1] }}</textarea>
+            <textarea name="story" required minlength="10" rows="15" cols="97">{{ question.message }}</textarea>
             <br>
             <br>
             <br>

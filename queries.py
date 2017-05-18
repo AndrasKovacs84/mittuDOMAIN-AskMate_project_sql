@@ -286,15 +286,6 @@ def sql_answer_details(cursor, answer_id):
     return answer
 
 
-def sql_edit_question(cursor, question_id):
-    cursor.execute("""
-                   SELECT title, message
-                   FROM question
-                   WHERE id=(%s);
-                   """ % (question_id))
-    return cursor.fetchall()
-
-
 @connect_to_sql
 def sql_get_latest_question(cursor):
     data = {'header': [],
