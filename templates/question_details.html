@@ -9,6 +9,25 @@
         <h2>{{ question.title }}</h2>
         <p> {{ question.message }}</p>
     </div>
+    {% if question_comments.result_set|length %}
+    <div class="question_comments">
+        <h2>Comments to question</h2>
+        <table>
+            <thead>
+                {% for header in question_comments.header %}
+                    <th>{{ header }}</th>
+                {% endfor %}
+            </thead>
+            {% for comment in question_comments.result_set %}
+            <tr>
+                {% for item in comment %}
+                <td>{{ item }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif %}
     <div class="answers">
         <h2>Answers</h2>
         <table>
@@ -18,12 +37,21 @@
                         <th>{{ header }}</th>
                     {% endfor %}
                 </thead>
-                {% for answer in answers.result_set %}
+                {% for row in answers.result_set %}
                 <tr>
-                    {% for item in answer %}
+                    {% for item in row.answer %}
                     <td>{{ item }}</td>
                     {% endfor %}
                 </tr>
+                <table>
+                    {% if answers.result_set.comments|length %}
+                        <tr>
+                            {% for comment in answers.result_set.comments %}
+                                <td>{{ comment }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endif %}
+                </table>
                 {% endfor %}
                 {% else %}
                 <h3 style="color: black">Be the first on the InterWeb who has the answer for this Question!</h3>

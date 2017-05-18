@@ -117,7 +117,7 @@ def sql_question_details(cursor, question_id):
                    vote_number AS "Vote number",
                    title AS "Title",
                    message AS "Message",
-                   image AS "Image" 
+                   image AS "Image"
                    FROM question
                    WHERE id={0}
                    """.format(question_id))
@@ -137,6 +137,7 @@ def sql_answers_to_question(cursor, question_id):
             'result_set': []}
     cursor.execute("""
                    SELECT
+                   id AS "Id",
                    submission_time AS "Submission time",
                    vote_number AS "Vote number",
                    message AS "Message",
@@ -147,15 +148,50 @@ def sql_answers_to_question(cursor, question_id):
     column_names = [desc[0] for desc in cursor.description]
     rows = cursor.fetchall()
     data['header'] = column_names
-    data['result_set'] = rows
-    print(data)
+    for answer in rows:
+        comments = sql_gather_comments_for_answer(answer[0])
+        data['result_set'].append({'answer': answer, 'comments': comments})
     return data
+
+
+@connect_to_sql
+def sql_gather_comments_for_answer(cursor, answer_id):
+    cursor.execute("""
+                   SELECT
+                   id AS "Id",
+                   message AS "Message",
+                   submission_time AS "Submission time"
+                   FROM comment
+                   WHERE answer_id = {0}
+                   """.format(answer_id))
+    comments = cursor.fetchall()
+    print("comments:", comments)
+    return comments
 
 
 @connect_to_sql
 def sql_update_question_details(cursor, new_question_details):
     cursor.execute("""
-                   UPDATE question
+                   UPDATE question)
                    SET title = {0}, message = {1}
                    WHERE id = {2}
                    """.format(new_question_details['title'], new_question_details['message'], new_question_details['id']))
+
+
+@connect_to_sql
+def sql_gather_question_comments(cursor, question_id):
+    data = {'header': [],
+            'result_set': []}
+    cursor.execute("""
+                   SELECT
+                   id AS "Id",
+                   message AS "Message",
+                   submission_time AS "Submission time"
+                   FROM comment
+                   WHERE question_id = {0}
+                   """.format(question_id))
+    column_names = [desc[0] for desc in cursor.description]
+    rows = cursor.fetchall()
+    data['header'] = column_names
+    data['result_set'] = rows
+    return data
