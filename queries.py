@@ -4,9 +4,10 @@ from connect import connect_to_sql
 
 @connect_to_sql
 def sql_select(cursor, query):
-    '''Displays the query chosen by the user. Parameter is a dictionary of the relevant properties
+    """ Displays the query chosen by the user. Parameter is a dictionary of the relevant properties
     for a simple query. Returns the results of the query. data[0] = list of column names as header,
-    data[1] = list of lists, where each nested list represents a row of data.'''
+    data[1] = list of lists, where each nested list represents a row of data.
+    """
     data = {'header': [],
             'result_set': []}
     if query['filter'] is None:
@@ -32,8 +33,9 @@ def sql_select(cursor, query):
 
 @connect_to_sql
 def sql_insert(cursor, data_to_insert):
-    '''Inserts data into table. data_to_insert = {'table': 'tablename', 'columns': [list of columns],
-    'values': [list_of_values]}. Function returns nothing.'''
+    """ Inserts data into table. data_to_insert = {'table': 'tablename', 'columns': [list of columns],
+    'values': [list_of_values]}. Function returns nothing.
+    """
     data = {'header': [],
             'result_set': []}
     cursor.execute("""
@@ -45,8 +47,9 @@ def sql_insert(cursor, data_to_insert):
 
 @connect_to_sql
 def sql_update(cursor, data_to_update):
-    '''Updates existing record in the database. data_to_update = {'column':[list of column names],
-    'values':[list of values for each column] Returns nothing'''
+    """ Updates existing record in the database. data_to_update = {'column':[list of column names],
+    'values':[list of values for each column] Returns nothing
+    """
     update_values = []
     for i in range(len(data_to_update['column'])):
         update_values.append(str(data_to_update['column'][i]) + '=' + str(data_to_update['values'][i]))
@@ -59,15 +62,11 @@ def sql_update(cursor, data_to_update):
 
 @connect_to_sql
 def sql_get_question_text(cursor, question_id):
-    query = 'SELECT title, message FROM question WHERE id = ' + str(question_id) + ';'
-    data = {'header': [],
-            'result_set': []}
-    cursor.execute("""{0}""".format(query))
-    column_names = [desc[0] for desc in cursor.description]
-    rows = cursor.fetchall()
-    data['header'] = column_names
-    data['result_set'] = rows
-    return data
+    cursor.execute("""
+                   SELECT title, message FROM question WHERE id = '{0}';
+                   """.format(question_id)
+                   )
+    return cursor.fetchall()
 
 
 @connect_to_sql
@@ -203,6 +202,7 @@ def sql_select_answer_comments(cursor, answer_id):
 @connect_to_sql
 def sql_delete_comments_from_answer(cursor, select_answer_comment):
     cursor.execute(""" DELETE FROM comment WHERE id ='{0}' """.format(select_answer_comment))
+
 
 @connect_to_sql
 def sql_insert_new_question(cursor, question_values):
