@@ -181,6 +181,13 @@ def sql_update_question_details(cursor, new_question_details):
 
 
 @connect_to_sql
+def sql_insert_answer(cursor, init_answer, question_id):
+    cursor.execute("""
+                   INSERT INTO answer (submission_time, vote_number, question_id, message)
+                   VALUES ('{0}', '{1}', (SELECT id FROM question WHERE id='{2}'),'{3}');
+                   """.format(init_answer[0], init_answer[1], question_id, init_answer[2]))
+
+
 def sql_gather_question_comments(cursor, question_id):
     data = {'header': [],
             'result_set': []}
@@ -197,3 +204,4 @@ def sql_gather_question_comments(cursor, question_id):
     data['header'] = column_names
     data['result_set'] = rows
     return data
+
