@@ -159,3 +159,11 @@ def sql_update_question_details(cursor, new_question_details):
                    SET title = {0}, message = {1}
                    WHERE id = {2}
                    """.format(new_question_details['title'], new_question_details['message'], new_question_details['id']))
+
+
+@connect_to_sql
+def sql_insert_answer(cursor, init_answer, question_id):
+    cursor.execute("""
+                   INSERT INTO answer (submission_time, vote_number, question_id, message)
+                   VALUES ('{0}', '{1}', (SELECT id FROM question WHERE id='{2}'),'{3}');
+                   """.format(init_answer[0], init_answer[1], question_id, init_answer[2]))

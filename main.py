@@ -60,11 +60,15 @@ def new_answer_form(question_id):
     return render_template('answer_form.html', question=question_overview, question_id=question_id)
 
 
-@app.route('/question/new_id', methods=['GET'])
-def new_answer(question_id):
+@app.route('/answer/new_id', methods=['POST'])
+def new_answer_id():
     ''' Adds new answer to the answer table'''
     button_value = request.form["button"]
-    # TODO: Check for 
+    new_row = helper.init_answer_values(request.form["answer"])
+    queries.sql_insert_answer(new_row, button_value)
+    return redirect("/question/" + button_value)
+
+
 @app.route('/question/new_id', methods=['POST'])
 def new_question_id():
     button_value = request.form["button"]
@@ -98,8 +102,6 @@ def edit_question_form(question_id):
     form_action = '/question/' + str(question_id)
     button_caption = 'Update Question'
     return render_template("question_form.html", question=question, form_action=form_action, button_caption=button_caption)
-
-
 
 
 if __name__ == '__main__':
