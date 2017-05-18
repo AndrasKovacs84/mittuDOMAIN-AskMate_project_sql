@@ -174,7 +174,7 @@ def sql_gather_comments_for_answer(cursor, answer_id):
 @connect_to_sql
 def sql_update_question_details(cursor, new_question_details):
     cursor.execute("""
-                   UPDATE question)
+                   UPDATE question
                    SET title = {0}, message = {1}
                    WHERE id = {2}
                    """.format(new_question_details['title'], new_question_details['message'], new_question_details['id']))
