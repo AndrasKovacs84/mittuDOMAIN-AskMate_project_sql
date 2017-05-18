@@ -174,13 +174,32 @@ def sql_gather_comments_for_answer(cursor, answer_id):
 @connect_to_sql
 def sql_update_question_details(cursor, new_question_details):
     cursor.execute("""
-                   UPDATE question)
+                   UPDATE question
                    SET title = {0}, message = {1}
                    WHERE id = {2}
                    """.format(new_question_details['title'], new_question_details['message'], new_question_details['id']))
 
 
 @connect_to_sql
+def sql_insert_new_question(cursor, question_values):
+    cursor.execute("""
+                   INSERT INTO question(submission_time, view_number, vote_number, title, message)
+                   VALUES ('{0}', {1}, {2}, '{3}', '{4}')
+                   """.format(question_values[0], question_values[1],
+                              question_values[2], question_values[3], question_values[4]))
+    new_id = sql_select_latest_question()
+    return new_id[0]
+
+
+@connect_to_sql
+def sql_select_latest_question(cursor):
+    cursor.execute("""
+                   SELECT max(id) 
+                   FROM question
+                   """)
+    row = cursor.fetchall()
+    return row[0]
+
 def sql_insert_answer(cursor, init_answer, question_id):
     cursor.execute("""
                    INSERT INTO answer (submission_time, vote_number, question_id, message)
@@ -188,6 +207,7 @@ def sql_insert_answer(cursor, init_answer, question_id):
                    """.format(init_answer[0], init_answer[1], question_id, init_answer[2]))
 
 
+@connect_to_sql
 def sql_gather_question_comments(cursor, question_id):
     data = {'header': [],
             'result_set': []}
@@ -204,4 +224,5 @@ def sql_gather_question_comments(cursor, question_id):
     data['header'] = column_names
     data['result_set'] = rows
     return data
+
 
