@@ -81,10 +81,11 @@ def new_question_id():
         return redirect("/question/" + str(int(new_question_id)))
 
 
-@app.route('/question/<int:question_id>/delete', methods=['GET'])
+@app.route('/question/<int:question_id>/delete', methods=['POST'])
 def delete_question(question_id):
-    helper.delete_data_by_id('data/question.csv', question_id, QUESTION_B64_COL, 0)
-    helper.delete_data_by_id('data/answer.csv', question_id, ANSWER_B64_COL, 3)
+    queries.sql_delete(question_id)
+    queries.sql_delete_answer(question_id)
+    queries.sql_delete_comment(question_id)
     return redirect("/")
 
 
