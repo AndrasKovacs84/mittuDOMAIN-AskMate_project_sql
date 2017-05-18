@@ -159,3 +159,13 @@ def sql_update_question_details(cursor, new_question_details):
                    SET title = {0}, message = {1}
                    WHERE id = {2}
                    """.format(new_question_details['title'], new_question_details['message'], new_question_details['id']))
+
+
+@connect_to_sql
+def delete_comment(question_id, ):
+    cursor.execute(""" DELETE FROM comment WHERE question_id = {1}; """
+
+
+@connect_to_sql
+def delete_asnwer(answer_id,):
+     cursor.execute(""" DELETE FROM answer WHERE question_id = {1}; """)
