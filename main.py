@@ -33,9 +33,11 @@ def question(question_id, methods=['GET']):
     relevant data for the question with the id. Another query collects all the associated answers, then the
     page is rendered with the two parts."""
     queries.sql_update_question_view_count(question_id)
-    selected_question = queries.sql_question_details(question_id)
+    question_comments = queries.sql_gather_question_comments(question_id)
     answers = queries.sql_answers_to_question(question_id)
-    return render_template('question_details.html', question=selected_question, question_id=question_id, answers=answers)
+    # answer_comments = queries.sql_gather_answer_comments(answer_id_list)
+    selected_question = queries.sql_question_details(question_id)
+    return render_template('question_details.html', question=selected_question, question_id=question_id, answers=answers, question_comments=question_comments)
 
 
 @app.route('/question/<int:question_id>', methods=['POST'])
