@@ -69,9 +69,7 @@ def update_question(question_id):
 def new_answer_form(question_id):
     ''' Displays empty form for entering an answer to the selected question (also displays question title on top).
     We arrive here from '/question/question_id/' '''
-
-    query = 'SELECT title, message FROM question WHERE id = ' + str(question_id) + ';'
-    question_overview = queries.sql_empty_qry(query)['result_set'][0]
+    question_overview = queries.sql_get_question_text(question_id)['result_set'][0]
     return render_template('answer_form.html', question=question_overview, question_id=question_id)
 
 

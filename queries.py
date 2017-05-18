@@ -58,7 +58,8 @@ def sql_update(cursor, data_to_update):
 
 
 @connect_to_sql
-def sql_empty_qry(cursor, query):
+def sql_get_question_text(cursor, question_id):
+    query = 'SELECT title, message FROM question WHERE id = ' + str(question_id) + ';'
     data = {'header': [],
             'result_set': []}
     cursor.execute("""{0}""".format(query))
@@ -203,7 +204,7 @@ def sql_select_answer_comments(cursor, answer_id):
 def sql_delete_comments_from_answer(cursor, select_answer_comment):
     cursor.execute(""" DELETE FROM comment WHERE id ='{0}' """.format(select_answer_comment))
 
-
+@connect_to_sql
 def sql_insert_new_question(cursor, question_values):
     cursor.execute("""
                    INSERT INTO question(submission_time, view_number, vote_number, title, message)
