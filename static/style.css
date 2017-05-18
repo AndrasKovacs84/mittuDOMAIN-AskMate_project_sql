@@ -1,13 +1,13 @@
 body {
     background-color: #ffffff;
-    background: url(background.png);
+    background: url(bg_pattern.jpg);
     font-size: 15px;
     color: #565656;
     width: 100%;
     height: 100%;
     margin-left: auto;
     margin-right: auto;
-    font-family: 'open_sansregular';
+    font-family: 'PT Sans', sans-serif;
     font-weight: 300;
 }
 
@@ -27,9 +27,7 @@ img {
 }
 
 h2, h3 {
-    font-family: 'Lane', sans-serif;
-    font-weight: 300;
-    margin: 0;
+    font-family: 'PT Sans', 'Lane', sans-serif;
 }
 
 h2 {
@@ -37,13 +35,10 @@ h2 {
     margin-bottom: .9rem;
 	line-height:inherit;
 }
-h3 {
-    font-weight: 300;
-    margin-bottom: .9rem;
-    font-size: 2.1rem;
-    line-height: 2.5rem;
-}
 
+h3{
+    font-size: 2rem;
+}
 
 table {
     color: #333;
@@ -54,11 +49,6 @@ table {
     margin-top: 10px;
     margin-left: inherit;
     margin-right: inherit;
-}
-
-h3 {
-    font-size: 100%;
-    margin-bottom: 0px;
 }
 
 td, th {
@@ -135,6 +125,11 @@ table tbody tr td a {
     padding: 15px;
 }
 
+.question_details h3{
+    color: black;
+    border-bottom: 2px solid black;
+}
+
 .answers{
     background-color: #77ff68;
     border: none;
@@ -146,8 +141,13 @@ table tbody tr td a {
     padding: 15px;
 }
 
+.answer_head{
+    border-bottom: 2px solid black;
+}
+
 .heading{
-    background-color: gray;
+    background-color: #121f79;
+    border-radius: 15px;
     top:0;
     width: 80%;
     height: 70px;
@@ -157,6 +157,7 @@ table tbody tr td a {
 }
 
 .heading h2{
+    display: inline-block;
     background-color: cornflowerblue;
     color: #001658;
     width: 20%;
@@ -168,11 +169,36 @@ table tbody tr td a {
     border-radius: 15px;
 }
 
-.list_body{
+.list_body,
+.question_form,
+.answer_form,
+.comment_form{
     width: 80%;
     background-color:#c5c5c5;
     text-align: center;
     margin: auto;
     padding-bottom: 20px;
     border-radius: 15px;
+}
+
+.question_form{
+    background-color:#ffe457;
+}
+
+.answer_form{
+    background-color:#77ff68;
+}
+
+.comment_form{
+    background-color: #8893d8;
+    );
+}
+
+.back_to_index{
+    background-color: #375639;
+}
+
+.back_to_index:hover{
+    background-color: black;
+    color: white;
 }

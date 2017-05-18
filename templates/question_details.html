@@ -2,11 +2,12 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
     <title>{{ question.title }}</title>
 </head>
 <body>
     <div class="question_details">
-        <h2>{{ question.title }}</h2>
+        <h3>{{ question.title }}</h3>
         <p> {{ question.message }}</p>
         <button name="answer_form" onclick="location.href='/question/{{ question.id }}/new_answer'" type="button">Answer this question</button>
         <button name="index_button" onclick="location.href='/question/{{ question.id }}/new-comment'" type="button">Add comment to question</button>
@@ -32,40 +33,43 @@
     </div>
     {% endif %}
     <div class="answers">
-        <h2>Answers</h2>
+        <h2 class="answer_head">Answers</h2>
+        {% if answers.result_set|length %}
         <table>
-            {% if answers.result_set|length %}
-                {% for dict in answers.result_set %}
-                <thead>
-                    {% for column_name in answers.header %}
-                        <th>{{ column_name }}</th>
-                    {% endfor %}
-                </thead>
-                <tr>
-                    {% for column in dict.answer %}
-                        <td>{{ column }}</td>
-                    {% endfor %}
-                    <td><button name="index_button" onclick="location.href='/answer/{{ dict.answer[0] }}/new-comment'" type="button">Add comment</button></td>   
-                </tr>
-                <tr>
-                    {% if dict.comments|length %}
-                        {% for comment in dict.comments %}
-                            <tr>
-                            {% for column in comment %}        
-                                <td>{{ column }}</td>
-                            {% endfor %}
-                            </tr>
-                        {% endfor %}
-                    {% endif %}
-                </tr>
+            {% for dict in answers.result_set %}
+            {% if dict.comments|length %}
+            <thead>
+                {% for column_name in answers.header %}
+                    <th>{{ column_name }}</th>
                 {% endfor %}
-            {% else %}
-                <h3 style="color: black">Be the first on the InterWeb who has the answer for this Question!</h3>
+                <th></th>
+            </thead>
             {% endif %}
+            <tr>
+                {% for column in dict.answer %}
+                    <td>{{ column }}</td>
+                {% endfor %}
+                <td><button name="index_button" onclick="location.href='/answer/{{ dict.answer[0] }}/new-comment'" type="button">Add comment</button></td>   
+            </tr>
+            <tr>
+                {% if dict.comments|length %}
+                    {% for comment in dict.comments %}
+                        <tr>
+                        {% for column in comment %}        
+                            <td>{{ column }}</td>
+                        {% endfor %}
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tr>
+            {% endfor %}
         </table>
+        {% else %}
+            <h3 style="color: black">Be the first on the InterWeb who has the answer for this Question!</h3>
+        {% endif %}
+    <br>
+    <br>
+    <button class="back_to_index" name="index" onclick="location.href='/'" type="button">Back to Index</button>
     </div>
-    <br>
-    <br>
-    <button name="index" onclick="location.href='/'" type="button">Back to Index</button>
 </body>
 </html>

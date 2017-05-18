@@ -2,6 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
     {% if not question.title %}
     <title>Post New Question</title>
     {% else %}
@@ -9,7 +10,7 @@
     {% endif %}
 </head>
 <body>
-    <div class="list_body">
+    <div class="question_form">
         <center>
         <b>
             {% if not question.title %}
@@ -34,6 +35,7 @@
             <br>
             <br>
             <input type="submit" value="{{ button_caption }}"  name="button" align="center"/>
+            <button name="index" onclick="location.href='/'" type="button">Back to Index</button>
         </form>
         </center>
     </div>
