@@ -113,21 +113,6 @@ def sql_update_question_details(cursor, new_question_details):
                    """.format(new_question_details['title'], new_question_details['message'], new_question_details['id']))
 
 
-
-
-
-@connect_to_sql
-def sql_select_answer_comments(cursor, answer_id):
-    cursor.execute(""" SELECT id FROM comment WHERE answer_id = '{0}' """.format(answer_id))
-    row = cursor.fetchall()
-    sql_delete_comments_from_answer(row)
-
-
-
-
-
-
-
 @connect_to_sql
 def sql_select_latest_question(cursor):
     cursor.execute("""
@@ -136,9 +121,6 @@ def sql_select_latest_question(cursor):
                    """)
     row = cursor.fetchall()
     return row[0]
-
-
-
 
 
 @connect_to_sql

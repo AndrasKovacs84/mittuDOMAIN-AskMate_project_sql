@@ -19,8 +19,3 @@ def sql_delete_question(cursor, question_id):
 @connect_to_sql
 def sql_delete_question_tag(cursor, question_id):
     cursor.execute(""" DELETE FROM question_tag WHERE question_id = '{0}'; """.format(question_id))
-
-
-@connect_to_sql
-def sql_delete_comments_from_answer(cursor, select_answer_comment):
-    cursor.execute(""" DELETE FROM comment WHERE id ='{0}' """.format(select_answer_comment))
