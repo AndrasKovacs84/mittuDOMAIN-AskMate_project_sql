@@ -99,7 +99,12 @@ def new_question_id():
 @app.route('/question/<int:question_id>/delete', methods=['POST'])
 def delete_question(question_id):
     queries.sql_delete_question_tag(question_id)
-    queries.sql_delete_comment(question_id)
+    queries.sql_delete_comment('question_id', question_id)
+    answers = queries.sql_answers_to_question(question_id)
+    print(answers)
+    for answer_with_comments in answers['result_set']:
+        for comment in answer_with_comments['comments']:
+            queries.sql_delete_comment('answer_id', comment[0])
     queries.sql_delete_answer(question_id)
     queries.sql_delete_question(question_id)
     return redirect("/")

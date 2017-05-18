@@ -33,23 +33,21 @@
         <h2>Answers</h2>
         <table>
             {% if answers.result_set|length %}
+                {% for dict in answers.result_set %}
                 <thead>
                     {% for column_name in answers.header %}
                         <th>{{ column_name }}</th>
                     {% endfor %}
                 </thead>
-                {% for row in answers.result_set %}
                 <tr>
-                    {% for item in row.answer %}
-                    <td>{{ item }}</td>
+                    {% for column in dict.answer %}
+                        <td>{{ column }}</td>
                     {% endfor %}
-                    {% if loop.index != row|length %}
-                    <td><button name="index_button" onclick="location.href='/answer/{{ row.answer[0] }}/new-comment'" type="button">Add comment1</button></td>
-                    {% endif %}
+                    <td><button name="index_button" onclick="location.href='/answer/{{ dict.answer[0] }}/new-comment'" type="button">Add comment</button></td>   
                 </tr>
-                <table>
-                    {% if answers.result_set.comments|length %}
-                        {% for comment in answers.result_set.comments %}
+                <tr>
+                    {% if dict.comments|length %}
+                        {% for comment in dict.comments %}
                             <tr>
                             {% for column in comment %}        
                                 <td>{{ column }}</td>
@@ -57,9 +55,9 @@
                             </tr>
                         {% endfor %}
                     {% endif %}
-                </table>
+                </tr>
                 {% endfor %}
-                {% else %}
+            {% else %}
                 <h3 style="color: black">Be the first on the InterWeb who has the answer for this Question!</h3>
             {% endif %}
         </table>
