@@ -112,6 +112,7 @@ def sql_update_question_view_count(cursor, question_id):
 def sql_question_details(cursor, question_id):
     cursor.execute("""
                    SELECT
+                   id AS "Id",
                    submission_time AS "Submission time",
                    view_number AS "View number",
                    vote_number AS "Vote number",
@@ -122,12 +123,13 @@ def sql_question_details(cursor, question_id):
                    WHERE id={0}
                    """.format(question_id))
     result = cursor.fetchall()
-    question = {'submission_time': result[0][0],
-                'view_number': result[0][1],
-                'vote_number': result[0][2],
-                'title': result[0][3],
-                'message': result[0][4],
-                'image': result[0][5]}
+    question = {'id': result[0][0],
+                'submission_time': result[0][1],
+                'view_number': result[0][2],
+                'vote_number': result[0][3],
+                'title': result[0][4],
+                'message': result[0][5],
+                'image': result[0][6]}
     return question
 
 
