@@ -199,6 +199,8 @@ def sql_select_latest_question(cursor):
     row = cursor.fetchall()
     return row[0]
 
+
+@connect_to_sql
 def sql_insert_answer(cursor, init_answer, question_id):
     cursor.execute("""
                    INSERT INTO answer (submission_time, vote_number, question_id, message)
