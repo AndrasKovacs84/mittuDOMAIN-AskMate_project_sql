@@ -2,7 +2,7 @@ from datetime import datetime
 
 
 # Create new question with its elements in the data table
-# SQL talbe title: ID;Submisson Time;View Number;Vote Number;Title;Message;Image
+# SQL table title: ID;Submisson Time;View Number;Vote Number;Title;Message;Image
 #
 # @req_form: dictionary from html form
 def init_question_values(req_form):
@@ -19,7 +19,7 @@ def init_question_values(req_form):
 
 
 # Create new answer with its elements in the data table
-# SQL talbe title: ID;Submisson Time;Vote Number;Question ID;Message;Image
+# SQL table title: ID;Submisson Time;Vote Number;Question ID;Message;Image
 #
 # @req_form: dictionary from html form
 # @question_id: int - index of the question
@@ -30,6 +30,24 @@ def init_answer_values(message):
     return new_answer
 
 
-def init_comment_values(comment, foreign_key):
-    entry = {'foreign_key': foreign_key,
-             'foreign_key_value': ''}
+# Create new comment with its elements in the data table
+# SQL table title: ID,Message;Foreign key;Foreign key value;Submission time
+#
+# @req_form: dictionary from html form
+# @path: list
+# @question_id: int - index of the question
+def init_comment_values(req_form, path, id):
+    comment = {'message': '',
+               'foreign_key': '',
+               'foreign_key_value': '',
+               'submission_time': ''}
+    comment['message'] = "'" + str(req_form['comment']).replace("'", "''") + "'"
+    print(path)
+    if "answer" in path:
+        comment['foreign_key'] = 'answer_id'
+    if "question" in path:
+        comment['foreign_key'] = 'question_id'
+    comment['foreign_key_value'] = id
+    comment['submission_time'] = "'" + str(datetime.now())[:-7] + "'"
+
+    return comment

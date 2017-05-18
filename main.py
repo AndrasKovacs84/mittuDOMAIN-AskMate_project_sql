@@ -145,14 +145,8 @@ def add_comment_to_question(question_id):
 
 @app.route('/question/<question_id>/add_comment', methods=['POST'])
 def insert_question_comment(question_id):
-    comment = {'message': '',
-               'foreign_key': '',
-               'foreign_key_value': '',
-               'submission_time': ''}
-    comment['message'] = "'" + str(request.form['comment']).replace("'", "''") + "'"
-    comment['foreign_key'] = 'question_id'
-    comment['foreign_key_value'] = question_id
-    comment['submission_time'] = "'" + str(datetime.now())[:-7] + "'"
+    print("QUESTION:", request.path)
+    comment = helper.init_comment_values(request.form, request.path, question_id)
     insert_queries.sql_insert_comment(comment)
     return redirect('/question/' + str(question_id))
 
@@ -166,14 +160,8 @@ def add_comment_to_answer(answer_id):
 
 @app.route('/answer/<answer_id>/add_comment', methods=['POST'])
 def insert_answer_comment(answer_id):
-    comment = {'message': '',
-               'foreign_key': '',
-               'foreign_key_value': '',
-               'submission_time': ''}
-    comment['message'] = "'" + str(request.form['comment']).replace("'", "''") + "'"
-    comment['foreign_key'] = 'answer_id'
-    comment['foreign_key_value'] = answer_id
-    comment['submission_time'] = "'" + str(datetime.now())[:-7] + "'"
+    print("ANSWER", request.path)
+    comment = helper.init_comment_values(request.form, request.path, answer_id)
     insert_queries.sql_insert_comment(comment)
     answer = select_queries.sql_answer_details(answer_id)
     return redirect('/question/' + str(answer['question_id']))
