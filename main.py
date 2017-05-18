@@ -35,7 +35,7 @@ def question(question_id, methods=['GET']):
     queries.sql_update_question_view_count(question_id)
     selected_question = queries.sql_question_details(question_id)
     answers = queries.sql_answers_to_question(question_id)
-    return render_template('question_details.html', question=selected_question, answers=answers)
+    return render_template('question_details.html', question=selected_question, question_id=question_id, answers=answers)
 
 
 @app.route('/question/<int:question_id>', methods=['POST'])
@@ -56,10 +56,15 @@ def new_answer_form(question_id):
     We arrive here from '/question/question_id/' '''
 
     query = 'SELECT title, message FROM question WHERE id = ' + str(question_id) + ';'
-    question_title = queries.sql_empty_qry(query)['result_set'][0]
-    return render_template('answer_form.html', question=question_title, question_id=question_id)
+    question_overview = queries.sql_empty_qry(query)['result_set'][0]
+    return render_template('answer_form.html', question=question_overview, question_id=question_id)
 
 
+@app.route('/question/new_id', methods=['GET'])
+def new_answer(question_id):
+    ''' Adds new answer to the answer table'''
+    button_value = request.form["button"]
+    # TODO: Check for 
 @app.route('/question/new_id', methods=['POST'])
 def new_question_id():
     button_value = request.form["button"]
