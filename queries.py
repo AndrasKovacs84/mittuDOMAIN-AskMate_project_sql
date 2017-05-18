@@ -57,9 +57,6 @@ def sql_update(cursor, data_to_update):
                      """.format(data_to_update['table'], ', '.join(update_values), data_to_update['filter']))
 
 
-
-
-
 @connect_to_sql
 def sql_empty_qry(cursor, query):
     data = {'header': [],
@@ -185,9 +182,8 @@ def sql_delete_answer(cursor, question_id,):
     cursor.execute(""" DELETE FROM answer WHERE question_id = '{0}'; """.format(question_id))
 
 
-
 @connect_to_sql
-def  sql_delete_question(cursor, question_id):
+def sql_delete_question(cursor, question_id):
     cursor.execute(""" DELETE FROM question WHERE id = '{0}'; """.format(question_id))
 
 
@@ -203,15 +199,9 @@ def sql_select_answer_comments(cursor, answer_id):
     sql_delete_comments_from_answer(row)
 
 
-
-
 @connect_to_sql
 def sql_delete_comments_from_answer(cursor, select_answer_comment):
-    cursor.execute(""" DELETE FROM comment WHERE id ='{0}' """. format(select_answer_comment))
-
-
-
-
+    cursor.execute(""" DELETE FROM comment WHERE id ='{0}' """.format(select_answer_comment))
 
 
 def sql_insert_new_question(cursor, question_values):
