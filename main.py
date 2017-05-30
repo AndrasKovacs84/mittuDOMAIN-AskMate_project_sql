@@ -17,6 +17,7 @@ def list_questions():
     questions_table = select_queries.sql_get_latest_question()
     form_action = '/list'
     button_caption = 'Every question'
+    print(questions_table)
     return render_template('list.html',
                            form_action=form_action,
                            questions=questions_table,
@@ -118,7 +119,7 @@ def delete_question(question_id):
     answers = select_queries.sql_answers_to_question(question_id)
     for answer_with_comments in answers['result_set']:
         for comment in answer_with_comments['comments']:
-            delete_queries.sql_delete_comment('answer_id', comment[0])
+            delete_queries.sql_delete_comment('id', comment[0])
     delete_queries.sql_delete_answer(question_id)
     delete_queries.sql_delete_question(question_id)
     return redirect("/")
