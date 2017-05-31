@@ -169,6 +169,20 @@ def insert_answer_comment(answer_id):
     return redirect('/question/' + str(answer['question_id']))
 
 
+@app.route('/users/<int:user_id>', methods=['GET'])
+def user_activities(user_id):
+    user_data = {'name': '',
+                 'reputation': '',
+                 'submission_time': ''}
+    user_activities = {'questions': [],
+                       'answers': [],
+                       'comments': []}
+    user_data = select_queries.sql_get_user_data_of_id(user_id)
+    user_activities = select_queries.sql_get_user_activities_of_id(user_id)
+    return render_template('user_activities.html', user_data=user_data,
+                           user_activities=user_activities)
+
+  
 @app.route('/registration', methods=['GET'])
 def new_user_form():
     """ We arrive here from the index.html "Registration" button.
