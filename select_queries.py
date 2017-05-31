@@ -16,15 +16,18 @@ def sql_list_questions(cursor, sort='submission_time DESC'):
             'result_set': []}
     cursor.execute("""
                    SELECT
-                   id AS "Id",
-                   submission_time AS "Submission time",
-                   view_number AS "View number",
-                   vote_number AS "Vote number",
-                   title AS "Title",
-                   message AS "Message",
-                   image AS "Image"
+                   question.id AS "Id",
+                   user_mates.user_mates_name AS "Author",
+                   question.submission_time AS "Submission time",
+                   question.view_number AS "View number",
+                   question.vote_number AS "Vote number",
+                   question.title AS "Title",
+                   question.message AS "Message",
+                   question.image AS "Image"
                    FROM question
-                   ORDER BY {0};
+                   INNER JOIN user_mates
+                   ON question.user_mates_id = user_mates.id
+                   ORDER BY question.{0};
                    """.format(sort))
     column_names = [desc[0] for desc in cursor.description]
     rows = cursor.fetchall()
@@ -73,13 +76,17 @@ def sql_answers_to_question(cursor, question_id):
             'result_set': []}
     cursor.execute("""
                    SELECT
-                   id AS "Id",
-                   submission_time AS "Submission time",
-                   vote_number AS "Vote number",
-                   message AS "Message",
-                   image AS "Image"
+                   answer.id AS "Id",
+                   user_mates.user_mates_name AS "Author",
+                   answer.submission_time AS "Submission time",
+                   answer.vote_number AS "Vote number",
+                   answer.message AS "Message",
+                   answer.image AS "Image"
                    FROM answer
-                   WHERE question_id={0}
+                   INNER JOIN user_mates
+                   ON answer.user_mates_id = user_mates.id
+                   WHERE answer.question_id = {0}
+                   ORDER BY answer.submission_time
                    """.format(question_id))
     column_names = [desc[0] for desc in cursor.description]
     rows = cursor.fetchall()
@@ -94,11 +101,15 @@ def sql_answers_to_question(cursor, question_id):
 def sql_gather_comments_for_answer(cursor, answer_id):
     cursor.execute("""
                    SELECT
-                   id AS "Id",
-                   message AS "Message",
-                   submission_time AS "Submission time"
+                   comment.id AS "Id",
+                   user_mates.user_mates_name AS "Author",
+                   comment.message AS "Message",
+                   comment.submission_time AS "Submission time"
                    FROM comment
+                   INNER JOIN user_mates
+                   ON comment.user_mates_id = user_mates.id
                    WHERE answer_id = {0}
+                   ORDER BY comment.submission_time
                    """.format(answer_id))
     comments = cursor.fetchall()
     return comments
@@ -110,7 +121,9 @@ def sql_update_question_details(cursor, new_question_details):
                    UPDATE question
                    SET title = {0}, message = {1}
                    WHERE id = {2}
-                   """.format(new_question_details['title'], new_question_details['message'], new_question_details['id']))
+                   """.format(new_question_details['title'],
+                              new_question_details['message'],
+                              new_question_details['id']))
 
 
 @connect_to_sql
@@ -129,11 +142,15 @@ def sql_gather_question_comments(cursor, question_id):
             'result_set': []}
     cursor.execute("""
                    SELECT
-                   id AS "Id",
-                   message AS "Message",
-                   submission_time AS "Submission time"
+                   comment.id AS "Id",
+                   user_mates.user_mates_name AS "Author",
+                   comment.message AS "Message",
+                   comment.submission_time AS "Submission time"
                    FROM comment
+                   INNER JOIN user_mates
+                   ON comment.user_mates_id = user_mates.id
                    WHERE question_id = {0}
+                   ORDER BY comment.submission_time
                    """.format(question_id))
     column_names = [desc[0] for desc in cursor.description]
     rows = cursor.fetchall()
@@ -189,6 +206,23 @@ def sql_get_latest_question(cursor):
 
 
 @connect_to_sql
+def sql_get_usernames(cursor, id=None):
+    if id is None:
+        cursor.execute("""SELECT user_mates_name FROM user_mates""")
+        return cursor.fetchall()
+    else:
+        cursor.execute("""SELECT user_mates_name FROM user_mates
+                       WHERE id={0}""".format(id))
+        return cursor.fetchall()
+
+
+@connect_to_sql
+def sql_get_user_id(cursor, username):
+    cursor.execute("""
+                   SELECT id FROM user_mates
+                   WHERE user_mates_name='{0}'
+                   """.format(username))
+    return cursor.fetchall()
 def sql_get_user_data_of_id(cursor, user_id):
     user_data = {'name': '',
                  'reputation': '',

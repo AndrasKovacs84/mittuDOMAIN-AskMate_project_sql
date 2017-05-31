@@ -5,16 +5,15 @@ from datetime import datetime
 # SQL table title: ID;Submisson Time;View Number;Vote Number;Title;Message;Image
 #
 # @req_form: dictionary from html form
-def init_question_values(req_form):
+def init_question_values(req_form, user_id):
     local_time = datetime.now()
-    print(local_time)
     view_number = "0"
     vote_number = "0"
     title = req_form["title"]
     data_form_story = req_form["story"]
     image = ""
     new_question = [str(local_time)[:-7], view_number, vote_number,
-                    title, data_form_story, image]
+                    title, data_form_story, image, user_id]
     return new_question
 
 
@@ -23,10 +22,10 @@ def init_question_values(req_form):
 #
 # @req_form: dictionary from html form
 # @question_id: int - index of the question
-def init_answer_values(message):
+def init_answer_values(message, user_id):
     local_time = datetime.now()
     vote_number = "0"
-    new_answer = [str(local_time)[:-7], vote_number, message]
+    new_answer = [str(local_time)[:-7], vote_number, message, user_id]
     return new_answer
 
 

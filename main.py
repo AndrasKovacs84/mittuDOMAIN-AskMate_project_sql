@@ -45,10 +45,12 @@ def new_question():
     question = {'result_set': [['', '']]}
     form_action = '/question/new_id'
     button_caption = 'Post Question'
+    usernames = select_queries.sql_get_usernames()
     return render_template('question_form.html',
                            form_action=form_action,
                            question=question,
-                           button_caption=button_caption
+                           button_caption=button_caption,
+                           usernames=usernames
                            )
 
 
@@ -62,11 +64,13 @@ def question(question_id):
     question_comments = select_queries.sql_gather_question_comments(question_id)
     answers = select_queries.sql_answers_to_question(question_id)
     selected_question = select_queries.sql_question_details(question_id)
+    user = select_queries.sql_get_usernames(question_id)
     return render_template('question_details.html',
                            question=selected_question,
                            question_id=question_id,
                            answers=answers,
-                           question_comments=question_comments
+                           question_comments=question_comments,
+                           user=user
                            )
 
 
@@ -87,9 +91,11 @@ def new_answer_form(question_id):
     """ Displays empty form for entering an answer to the selected question (also displays question title on top).
     We arrive here from '/question/question_id/'
     """
+    usernames = select_queries.sql_get_usernames()
     return render_template('answer_form.html',
                            question=select_queries.sql_get_question_text(question_id),
-                           question_id=question_id
+                           question_id=question_id,
+                           usernames=usernames
                            )
 
 
@@ -97,17 +103,21 @@ def new_answer_form(question_id):
 def new_answer_id():
     """ Adds new answer to the answer table
     """
+    user_id = select_queries.sql_get_user_id(request.form["selected_user"])[0][0]
     button_value = request.form["button"]
-    new_row = helper.init_answer_values(request.form["answer"])
-    insert_queries.sql_insert_answer(new_row, button_value)
+    new_answer = helper.init_answer_values(request.form["answer"], user_id)
+    insert_queries.sql_insert_answer(new_answer, button_value)
     return redirect("/question/" + button_value)
 
 
 @app.route('/question/new_id', methods=['POST'])
 def new_question_id():
+    """ Handles the post request of the new question form
+    """
+    user_id = select_queries.sql_get_user_id(request.form["selected_user"])[0][0]
     button_value = request.form["button"]
     if button_value == "Post Question":
-        new_question = helper.init_question_values(request.form)
+        new_question = helper.init_question_values(request.form, user_id)
         new_question_id = insert_queries.sql_insert_new_question(new_question)
         return redirect("/question/" + str(int(new_question_id)))
 
@@ -127,6 +137,8 @@ def delete_question(question_id):
 
 @app.route('/question/<int:question_id>/edit', methods=['GET'])
 def edit_question_form(question_id):
+    """ Edits the question form
+    """
     question = select_queries.sql_question_details(question_id)
     form_action = '/question/' + str(question_id)
     button_caption = 'Update Question'
@@ -141,13 +153,17 @@ def edit_question_form(question_id):
 def add_comment_to_question(question_id):
     question = select_queries.sql_question_details(question_id)
     question['type'] = 'question'
-    return render_template('comment_form.html', data=question)
+    usernames = select_queries.sql_get_usernames()
+    return render_template('comment_form.html',
+                           data=question,
+                           usernames=usernames)
 
 
 @app.route('/question/<int:question_id>/add_comment', methods=['POST'])
 def insert_question_comment(question_id):
+    user_id = select_queries.sql_get_user_id(request.form["selected_user"])[0][0]
     comment = helper.init_comment_values(request.form, request.path, question_id)
-    insert_queries.sql_insert_comment(comment)
+    insert_queries.sql_insert_comment(comment, user_id)
     return redirect('/question/' + str(question_id))
 
 
@@ -155,13 +171,17 @@ def insert_question_comment(question_id):
 def add_comment_to_answer(answer_id):
     answer = select_queries.sql_answer_details(answer_id)
     answer['type'] = 'answer'
-    return render_template('comment_form.html', data=answer)
+    usernames = select_queries.sql_get_usernames()
+    return render_template('comment_form.html',
+                           data=answer,
+                           usernames=usernames)
 
 
 @app.route('/answer/<int:answer_id>/add_comment', methods=['POST'])
 def insert_answer_comment(answer_id):
+    user_id = select_queries.sql_get_user_id(request.form["selected_user"])[0][0]
     comment = helper.init_comment_values(request.form, request.path, answer_id)
-    insert_queries.sql_insert_comment(comment)
+    insert_queries.sql_insert_comment(comment, user_id)
     answer = select_queries.sql_answer_details(answer_id)
     return redirect('/question/' + str(answer['question_id']))
 
