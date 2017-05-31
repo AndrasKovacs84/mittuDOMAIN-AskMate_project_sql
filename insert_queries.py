@@ -23,11 +23,13 @@ def sql_insert_answer(cursor, init_answer, question_id):
 
 
 @connect_to_sql
-def sql_insert_comment(cursor, comment):
+def sql_insert_comment(cursor, comment, user_id):
+    print(comment)
     cursor.execute("""
-                   INSERT INTO comment ({0}, message, submission_time)
-                   VALUES ({1}, {2}, {3});
+                   INSERT INTO comment ({0}, message, submission_time, user_mates_id)
+                   VALUES ({1}, {2}, {3}, {4});
                    """.format(comment['foreign_key'],
                               comment['foreign_key_value'],
                               comment['message'],
-                              comment['submission_time']))
+                              comment['submission_time'],
+                              user_id))

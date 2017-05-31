@@ -161,9 +161,9 @@ def add_comment_to_question(question_id):
 
 @app.route('/question/<int:question_id>/add_comment', methods=['POST'])
 def insert_question_comment(question_id):
-    print("QUESTION:", request.path)
+    user_id = select_queries.sql_get_user_id(request.form["selected_user"])[0][0]
     comment = helper.init_comment_values(request.form, request.path, question_id)
-    insert_queries.sql_insert_comment(comment)
+    insert_queries.sql_insert_comment(comment, user_id)
     return redirect('/question/' + str(question_id))
 
 
@@ -179,9 +179,9 @@ def add_comment_to_answer(answer_id):
 
 @app.route('/answer/<int:answer_id>/add_comment', methods=['POST'])
 def insert_answer_comment(answer_id):
-    print("ANSWER", request.path)
+    user_id = select_queries.sql_get_user_id(request.form["selected_user"])[0][0]
     comment = helper.init_comment_values(request.form, request.path, answer_id)
-    insert_queries.sql_insert_comment(comment)
+    insert_queries.sql_insert_comment(comment, user_id)
     answer = select_queries.sql_answer_details(answer_id)
     return redirect('/question/' + str(answer['question_id']))
 
