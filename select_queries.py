@@ -187,15 +187,18 @@ def sql_get_latest_question(cursor):
     data = {'header': [],
             'result_set': []}
     cursor.execute("""
-                   SELECT id AS "Id",
-                   submission_time AS "Submission time",
-                   view_number AS "View number",
-                   vote_number AS "Vote number",
-                   title AS "Title",
-                   message AS "Message",
-                   image AS "Image"
+                   SELECT question.id AS "Id",
+                   user_mates.user_mates_name AS "Author",
+                   question.submission_time AS "Submission time",
+                   question.view_number AS "View number",
+                   question.vote_number AS "Vote number",
+                   question.title AS "Title",
+                   question.message AS "Message",
+                   question.image AS "Image"
                    FROM question
-                   ORDER BY submission_time DESC
+                   INNER JOIN user_mates
+                   ON question.user_mates_id = user_mates.id
+                   ORDER BY question.submission_time DESC
                    LIMIT 5
                    """)
     column_names = [desc[0] for desc in cursor.description]
@@ -206,14 +209,23 @@ def sql_get_latest_question(cursor):
 
 
 @connect_to_sql
-def sql_get_usernames(cursor, id=None):
-    if id is None:
+def sql_get_usernames(cursor, question_id=None):
+    if question_id is None:
         cursor.execute("""SELECT user_mates_name FROM user_mates""")
         return cursor.fetchall()
     else:
-        cursor.execute("""SELECT user_mates_name FROM user_mates
-                       WHERE id={0}""".format(id))
-        return cursor.fetchall()
+        cursor.execute("""
+                       SELECT user_mates_id
+                       FROM question
+                       WHERE id = {0}
+                       """.format(question_id))
+        user_id = cursor.fetchall()[0][0]
+        cursor.execute("""
+                       SELECT user_mates_name
+                       FROM user_mates
+                       WHERE id = {0}
+                       """.format(user_id))
+        return cursor.fetchall()[0][0]
 
 
 @connect_to_sql

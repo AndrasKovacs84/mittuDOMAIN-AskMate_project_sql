@@ -8,8 +8,10 @@
 <body>
     <div class="question_details">
         <h3>{{ question.title }}</h3>
-        <h3>Vote number: {{ question.vote_number }}
-
+        <h3>
+            Vote number: {{ question.vote_number }}
+            Author: {{ author }}
+        </h3>
         <form action="/question/{{ question.id }}/vote-up" method="post">
             <button name="vote_up" value="Vote up">
                 <img src={{ url_for("static", filename="arrow_up.ico" ) }} alt="Vote up" width="30" height="30" title="Vote up">
@@ -21,8 +23,6 @@
                 <img src={{ url_for("static", filename="arrow_down.ico" ) }} alt="Vote down" width="30" height="30" title="Vote down">
             </button>
         </form>
-
-        </h3>
         <p> {{ question.message }}</p>
         <button name="answer_form" onclick="location.href='/question/{{ question.id }}/new_answer'" type="button">Answer this question</button>
         <button name="index_button" onclick="location.href='/question/{{ question.id }}/new-comment'" type="button">Add comment to question</button>
