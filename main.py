@@ -199,7 +199,7 @@ def user_activities(user_id):
     return render_template('user_activities.html', user_data=user_data,
                            user_activities=user_activities)
 
-  
+
 @app.route('/registration', methods=['GET'])
 def new_user_form():
     """ We arrive here from the index.html "Registration" button.
@@ -234,12 +234,40 @@ def list_users():
                            questions=questions_table,
                            button_caption=button_caption
                            )
-  
 
 
+@app.route('/question/<int:question_id>/vote-up', methods=['POST'])
+def question_vote_up(question_id):
+    change = '+1'
+    table = 'question'
+    insert_queries.sql_update_vote_nr(table, question_id, change)
+    return redirect('/question/' + str(question_id))
 
 
+@app.route('/question/<int:question_id>/vote-down', methods=['POST'])
+def question_vote_down(question_id):
+    change = '-1'
+    table = 'question'
+    insert_queries.sql_update_vote_nr(table, question_id, change)
+    return redirect('/question/' + str(question_id))
 
+
+@app.route('/answer/<int:answer_id>/vote-up', methods=['POST'])
+def answer_vote_up(answer_id):
+    change = '+1'
+    table = 'answer'
+    answer = select_queries.sql_answer_details(answer_id)
+    insert_queries.sql_update_vote_nr(table, answer_id, change)
+    return redirect('/question/' + str(answer['question_id']))
+
+
+@app.route('/answer/<int:answer_id>/vote-down', methods=['POST'])
+def answer_vote_down(answer_id):
+    change = '-1'
+    table = 'answer'
+    answer = select_queries.sql_answer_details(answer_id)
+    insert_queries.sql_update_vote_nr(table, answer_id, change)
+    return redirect('/question/' + str(answer['question_id']))
 
 
 #@app.route('/', methods=['GET'])

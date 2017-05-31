@@ -33,3 +33,12 @@ def sql_insert_comment(cursor, comment, user_id):
                               comment['message'],
                               comment['submission_time'],
                               user_id))
+
+
+@connect_to_sql
+def sql_update_vote_nr(cursor, table, id, amount):
+    cursor.execute("""
+                   UPDATE {0}
+                   SET vote_number = vote_number{1}
+                   WHERE id={2}
+                   """.format(table, amount, id))
