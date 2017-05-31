@@ -153,7 +153,10 @@ def edit_question_form(question_id):
 def add_comment_to_question(question_id):
     question = select_queries.sql_question_details(question_id)
     question['type'] = 'question'
-    return render_template('comment_form.html', data=question)
+    usernames = select_queries.sql_get_usernames()
+    return render_template('comment_form.html',
+                           data=question,
+                           usernames=usernames)
 
 
 @app.route('/question/<int:question_id>/add_comment', methods=['POST'])
@@ -168,7 +171,10 @@ def insert_question_comment(question_id):
 def add_comment_to_answer(answer_id):
     answer = select_queries.sql_answer_details(answer_id)
     answer['type'] = 'answer'
-    return render_template('comment_form.html', data=answer)
+    usernames = select_queries.sql_get_usernames()
+    return render_template('comment_form.html',
+                           data=answer,
+                           usernames=usernames)
 
 
 @app.route('/answer/<int:answer_id>/add_comment', methods=['POST'])

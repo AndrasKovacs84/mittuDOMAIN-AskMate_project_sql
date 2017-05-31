@@ -11,6 +11,14 @@
         <p> {{ data.message }}</p>
         <h3>Your Comment:</h3>
         <form action="/{{ data.type }}/{{ data.id }}/add_comment" method="POST">
+            <p>
+                User: 
+                <select name='selected_user'>
+                    {% for name in usernames %}
+                        <option value= {{ name[0] }} > {{ name[0] }} </option>
+                    {% endfor %}
+                </select>
+            </p>
             <textarea name="comment" required minlength="10" rows="15" cols="92"></textarea>
             <p>
                 <button type="submit" name="button" value="{{ data.id }}">Post Comment</button>

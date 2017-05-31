@@ -27,7 +27,7 @@ def sql_insert_comment(cursor, comment):
     cursor.execute("""
                    INSERT INTO comment ({0}, message, submission_time)
                    VALUES ({1}, {2}, {3});
-                   """.format(comment['foreign_key'], 
-                              comment['foreign_key_value'], 
-                              comment['message'], 
+                   """.format(comment['foreign_key'],
+                              comment['foreign_key_value'],
+                              comment['message'],
                               comment['submission_time']))

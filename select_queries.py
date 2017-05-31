@@ -114,7 +114,9 @@ def sql_update_question_details(cursor, new_question_details):
                    UPDATE question
                    SET title = {0}, message = {1}
                    WHERE id = {2}
-                   """.format(new_question_details['title'], new_question_details['message'], new_question_details['id']))
+                   """.format(new_question_details['title'],
+                              new_question_details['message'],
+                              new_question_details['id']))
 
 
 @connect_to_sql
