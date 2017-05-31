@@ -18,7 +18,6 @@ def list_questions():
     questions_table = select_queries.sql_get_latest_question()
     form_action = '/list'
     button_caption = 'Every question'
-    print(questions_table)
     return render_template('list.html',
                            form_action=form_action,
                            questions=questions_table,
@@ -147,7 +146,6 @@ def add_comment_to_question(question_id):
 
 @app.route('/question/<int:question_id>/add_comment', methods=['POST'])
 def insert_question_comment(question_id):
-    print("QUESTION:", request.path)
     comment = helper.init_comment_values(request.form, request.path, question_id)
     insert_queries.sql_insert_comment(comment)
     return redirect('/question/' + str(question_id))
@@ -162,7 +160,6 @@ def add_comment_to_answer(answer_id):
 
 @app.route('/answer/<int:answer_id>/add_comment', methods=['POST'])
 def insert_answer_comment(answer_id):
-    print("ANSWER", request.path)
     comment = helper.init_comment_values(request.form, request.path, answer_id)
     insert_queries.sql_insert_comment(comment)
     answer = select_queries.sql_answer_details(answer_id)
@@ -201,7 +198,6 @@ def insert_user():
     """ We arrive here from the user_form.html "Submit Registration" button.
     Inicializing user data, end returning to index page. (In future to user page.)
     """
-    print(request.form)
     user = helper.init_user_values(request.form)
     user_queries.sql_insert_user(user)
     # user_mate = user_queries.sql_select_user(answer_id)
