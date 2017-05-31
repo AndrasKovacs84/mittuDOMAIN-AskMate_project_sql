@@ -137,14 +137,14 @@ def edit_question_form(question_id):
                            )
 
 
-@app.route('/question/<question_id>/new-comment', methods=['GET'])
+@app.route('/question/<int:question_id>/new-comment', methods=['GET'])
 def add_comment_to_question(question_id):
     question = select_queries.sql_question_details(question_id)
     question['type'] = 'question'
     return render_template('comment_form.html', data=question)
 
 
-@app.route('/question/<question_id>/add_comment', methods=['POST'])
+@app.route('/question/<int:question_id>/add_comment', methods=['POST'])
 def insert_question_comment(question_id):
     print("QUESTION:", request.path)
     comment = helper.init_comment_values(request.form, request.path, question_id)
@@ -152,14 +152,14 @@ def insert_question_comment(question_id):
     return redirect('/question/' + str(question_id))
 
 
-@app.route('/answer/<answer_id>/new-comment', methods=['GET'])
+@app.route('/answer/<int:answer_id>/new-comment', methods=['GET'])
 def add_comment_to_answer(answer_id):
     answer = select_queries.sql_answer_details(answer_id)
     answer['type'] = 'answer'
     return render_template('comment_form.html', data=answer)
 
 
-@app.route('/answer/<answer_id>/add_comment', methods=['POST'])
+@app.route('/answer/<int:answer_id>/add_comment', methods=['POST'])
 def insert_answer_comment(answer_id):
     print("ANSWER", request.path)
     comment = helper.init_comment_values(request.form, request.path, answer_id)
