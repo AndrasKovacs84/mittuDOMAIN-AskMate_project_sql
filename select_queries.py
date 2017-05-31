@@ -16,15 +16,18 @@ def sql_list_questions(cursor, sort='submission_time DESC'):
             'result_set': []}
     cursor.execute("""
                    SELECT
-                   id AS "Id",
-                   submission_time AS "Submission time",
-                   view_number AS "View number",
-                   vote_number AS "Vote number",
-                   title AS "Title",
-                   message AS "Message",
-                   image AS "Image"
+                   question.id AS "Id",
+                   user_mates.user_mates_name AS "Author",
+                   question.submission_time AS "Submission time",
+                   question.view_number AS "View number",
+                   question.vote_number AS "Vote number",
+                   question.title AS "Title",
+                   question.message AS "Message",
+                   question.image AS "Image"
                    FROM question
-                   ORDER BY {0};
+                   INNER JOIN user_mates
+                   ON question.user_mates_id = user_mates.id
+                   ORDER BY question.{0};
                    """.format(sort))
     column_names = [desc[0] for desc in cursor.description]
     rows = cursor.fetchall()
@@ -210,7 +213,7 @@ def sql_get_usernames(cursor, id=None):
     else:
         cursor.execute("""SELECT user_mates_name FROM user_mates
                        WHERE id={0}""".format(id))
-        return cursor.fetchall()[0][0]
+        return cursor.fetchall()
 
 
 @connect_to_sql
