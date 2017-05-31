@@ -80,6 +80,7 @@ def sql_answers_to_question(cursor, question_id):
                    image AS "Image"
                    FROM answer
                    WHERE question_id={0}
+                   ORDER BY id ASC
                    """.format(question_id))
     column_names = [desc[0] for desc in cursor.description]
     rows = cursor.fetchall()

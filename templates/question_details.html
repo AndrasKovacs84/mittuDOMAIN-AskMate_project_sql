@@ -9,8 +9,19 @@
     <div class="question_details">
         <h3>{{ question.title }}</h3>
         <h3>Vote number: {{ question.vote_number }}
-        <a href="/question/{{ question.id }}/vote-up"> <img src={{ url_for("static", filename="arrow_up.ico" ) }} alt="Vote up" width="30" height="30" title="Vote up"></a>
-        <a href="/question/{{ question.id }}/vote-down"> <img src={{ url_for("static", filename="arrow_down.ico" ) }} alt="Vote down" width="30" height="30" title="Vote down"></a>
+
+        <form action="/question/{{ question.id }}/vote-up" method="post">
+            <button name="vote_up" value="Vote up">
+                <img src={{ url_for("static", filename="arrow_up.ico" ) }} alt="Vote up" width="30" height="30" title="Vote up">
+            </button>
+        </form>
+
+        <form action="/question/{{ question.id }}/vote-down" method="post">
+            <button name="vote_down" value="Vote down">
+                <img src={{ url_for("static", filename="arrow_down.ico" ) }} alt="Vote down" width="30" height="30" title="Vote down">
+            </button>
+        </form>
+
         </h3>
         <p> {{ question.message }}</p>
         <button name="answer_form" onclick="location.href='/question/{{ question.id }}/new_answer'" type="button">Answer this question</button>
@@ -56,8 +67,17 @@
                 {% endfor %}
                 <td><button name="index_button" onclick="location.href='/answer/{{ result.answer[0] }}/new-comment'" type="button">Add comment</button></td>
                 <td>
-                    <a href="/answer/{{ result.answer[0] }}/vote-up"> <img src={{ url_for("static", filename="arrow_up.ico" ) }} alt="Vote up" width="30" height="30" title="Vote up"></a>
-                    <a href="/answer/{{ result.answer[0] }}/vote-down"> <img src={{ url_for("static", filename="arrow_down.ico" ) }} alt="Vote down" width="30" height="30" title="Vote down"></a>        
+                    <form action="/answer/{{ result.answer[0] }}/vote-up" method="post">
+                        <button name="vote_up" value="Vote up">
+                            <img src={{ url_for("static", filename="arrow_up.ico" ) }} alt="Vote up" width="30" height="30" title="Vote up">
+                        </button>
+                    </form>
+                
+                    <form action="/answer/{{ result.answer[0] }}/vote-down" method="post">
+                        <button name="vote_down" value="Vote down">
+                            <img src={{ url_for("static", filename="arrow_down.ico" ) }} alt="Vote down" width="30" height="30" title="Vote down">
+                        </button>
+                    </form>
                 </td>
             </tr>
             <tr>
