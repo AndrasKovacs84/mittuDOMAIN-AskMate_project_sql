@@ -3,7 +3,7 @@ import delete_queries
 import insert_queries
 import user_queries
 import helper
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, abort
 from datetime import datetime
 
 app = Flask(__name__)
@@ -268,6 +268,21 @@ def answer_vote_down(answer_id):
     answer = select_queries.sql_answer_details(answer_id)
     insert_queries.sql_update_vote_nr(table, answer_id, change)
     return redirect('/question/' + str(answer['question_id']))
+
+
+@app.errorhandler(TypeError)
+def server_side_type_error(e):
+    return render_template('500.html'), 500
+
+
+@app.errorhandler(AttributeError)
+def server_side_attribute_error(e):
+    return render_template('500.html'), 500
+
+
+@app.errorhandler(NameError)
+def user_side_name_error():
+    return render_template('404.html'), 404
 
 
 #@app.route('/', methods=['GET'])
