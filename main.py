@@ -1,6 +1,7 @@
 import select_queries
 import delete_queries
 import insert_queries
+import user_queries
 import helper
 from flask import Flask, render_template, request, url_for, redirect
 from datetime import datetime
@@ -166,6 +167,31 @@ def insert_answer_comment(answer_id):
     insert_queries.sql_insert_comment(comment)
     answer = select_queries.sql_answer_details(answer_id)
     return redirect('/question/' + str(answer['question_id']))
+
+
+@app.route('/registration', methods=['GET'])
+def new_user_form():
+    """ We arrive here from the index.html "Registration" button.
+    Displays an empty user form.
+    """
+    form_action = '/registration/new_user'
+    button_caption = 'Submit Registration'
+    return render_template('user_form.html',
+                           form_action=form_action,
+                           button_caption=button_caption
+                           )
+
+
+@app.route('/registration/new_user', methods=['POST'])
+def insert_user():
+    """ We arrive here from the user_form.html "Submit Registration" button.
+    Inicializing user data, end returning to index page. (In future to user page.)
+    """
+    print(request.form)
+    user = helper.init_user_values(request.form)
+    user_queries.sql_insert_user(user)
+    # user_mate = user_queries.sql_select_user(answer_id)
+    return redirect('/')
 
 
 if __name__ == '__main__':
