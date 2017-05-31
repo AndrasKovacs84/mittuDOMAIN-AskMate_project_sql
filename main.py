@@ -168,5 +168,11 @@ def insert_answer_comment(answer_id):
     return redirect('/question/' + str(answer['question_id']))
 
 
+@app.route('users/<int:user_id>', methods=['GET'])
+def user_activities(user_id):
+    
+    return render_template('user_activities', user_data=user_data)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
