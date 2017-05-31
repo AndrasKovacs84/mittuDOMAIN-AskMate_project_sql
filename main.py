@@ -64,11 +64,14 @@ def question(question_id):
     question_comments = select_queries.sql_gather_question_comments(question_id)
     answers = select_queries.sql_answers_to_question(question_id)
     selected_question = select_queries.sql_question_details(question_id)
+
+    user = select_queries.sql_get_usernames(question_id)
     return render_template('question_details.html',
                            question=selected_question,
                            question_id=question_id,
                            answers=answers,
-                           question_comments=question_comments
+                           question_comments=question_comments,
+                           user=user
                            )
 
 
@@ -89,9 +92,11 @@ def new_answer_form(question_id):
     """ Displays empty form for entering an answer to the selected question (also displays question title on top).
     We arrive here from '/question/question_id/'
     """
+    usernames = select_queries.sql_get_usernames()
     return render_template('answer_form.html',
                            question=select_queries.sql_get_question_text(question_id),
-                           question_id=question_id
+                           question_id=question_id,
+                           usernames=usernames
                            )
 
 
@@ -99,9 +104,10 @@ def new_answer_form(question_id):
 def new_answer_id():
     """ Adds new answer to the answer table
     """
+    user_id = select_queries.sql_get_user_id(request.form["selected_user"])[0][0]
     button_value = request.form["button"]
-    new_row = helper.init_answer_values(request.form["answer"])
-    insert_queries.sql_insert_answer(new_row, button_value)
+    new_answer = helper.init_answer_values(request.form["answer"], user_id)
+    insert_queries.sql_insert_answer(new_answer, button_value)
     return redirect("/question/" + button_value)
 
 

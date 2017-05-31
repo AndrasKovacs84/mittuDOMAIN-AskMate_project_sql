@@ -17,9 +17,9 @@ def sql_insert_new_question(cursor, question_values):
 @connect_to_sql
 def sql_insert_answer(cursor, init_answer, question_id):
     cursor.execute("""
-                   INSERT INTO answer (submission_time, vote_number, question_id, message)
-                   VALUES ('{0}', '{1}', (SELECT id FROM question WHERE id='{2}'),'{3}');
-                   """.format(init_answer[0], init_answer[1], question_id, init_answer[2]))
+                   INSERT INTO answer (submission_time, vote_number, question_id, message, user_mates_id)
+                   VALUES ('{0}', '{1}', (SELECT id FROM question WHERE id='{2}'),'{3}', {4});
+                   """.format(init_answer[0], init_answer[1], question_id, init_answer[2], init_answer[3]))
 
 
 @connect_to_sql

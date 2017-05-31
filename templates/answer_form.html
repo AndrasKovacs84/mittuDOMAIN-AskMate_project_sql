@@ -11,11 +11,17 @@
         <p> {{ question[1] }}</p>
         <h3>Your Answer</h3>
         <form action="/answer/new_id" method="POST">
-            <textarea name="answer" required minlength="10" rows="15" cols="92"></textarea>
-            <p>
-                <button type="submit" name="button" value="{{ question_id }}">Post Your Answer</button>
-                <button name="index" onclick="location.href='/'" type="button">Back to Index</button>
-            </p>
+            <select name='selected_user'>
+                {% for name in usernames %}
+                    <option value= {{ name[0] }} > {{ name[0] }} </option>
+                {% endfor %}
+            </select>
+            
+                <textarea name="answer" required minlength="10" rows="15" cols="92"></textarea>
+                <p>
+                    <button type="submit" name="button" value="{{ question_id }}">Post Your Answer</button>
+                    <button name="index" onclick="location.href='/'" type="button">Back to Index</button>
+                </p>
         </form>
     </div>
 </body>

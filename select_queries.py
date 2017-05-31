@@ -189,9 +189,14 @@ def sql_get_latest_question(cursor):
 
 
 @connect_to_sql
-def sql_get_usernames(cursor):
-    cursor.execute("""SELECT user_mates_name FROM user_mates""")
-    return cursor.fetchall()
+def sql_get_usernames(cursor, id=None):
+    if id == None:
+        cursor.execute("""SELECT user_mates_name FROM user_mates""")
+        return cursor.fetchall()
+    else:
+        cursor.execute("""SELECT user_mates_name FROM user_mates
+                       WHERE id={0}""".format(id))
+        return cursor.fetchall()[0][0]
 
 
 @connect_to_sql
