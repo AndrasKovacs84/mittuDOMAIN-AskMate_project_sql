@@ -8,6 +8,10 @@
 <body>
     <div class="question_details">
         <h3>{{ question.title }}</h3>
+        <h3>Vote number: {{ question.vote_number }}
+        <a href="/question/{{ question.id }}/vote-up"> <img src={{ url_for("static", filename="arrow_up.ico" ) }} alt="Vote up" width="30" height="30" title="Vote up"></a>
+        <a href="/question/{{ question.id }}/vote-down"> <img src={{ url_for("static", filename="arrow_down.ico" ) }} alt="Vote down" width="30" height="30" title="Vote down"></a>
+        </h3>
         <p> {{ question.message }}</p>
         <button name="answer_form" onclick="location.href='/question/{{ question.id }}/new_answer'" type="button">Answer this question</button>
         <button name="index_button" onclick="location.href='/question/{{ question.id }}/new-comment'" type="button">Add comment to question</button>
@@ -36,29 +40,34 @@
         <h2 class="answer_head">Answers</h2>
         {% if answers.result_set|length %}
         <table>
-            {% for dict in answers.result_set %}
-            {% if dict.comments|length %}
+            {% for result in answers.result_set %}
+            {% if result.comments|length %}
             <thead>
                 {% for column_name in answers.header %}
                     <th>{{ column_name }}</th>
                 {% endfor %}
                 <th></th>
+                <th>Vote</th>
             </thead>
             {% endif %}
             <tr>
-                {% for column in dict.answer %}
+                {% for column in result.answer %}
                     <td>{{ column }}</td>
                 {% endfor %}
-                <td><button name="index_button" onclick="location.href='/answer/{{ dict.answer[0] }}/new-comment'" type="button">Add comment</button></td>   
+                <td><button name="index_button" onclick="location.href='/answer/{{ result.answer[0] }}/new-comment'" type="button">Add comment</button></td>
+                <td>
+                    <a href="/answer/{{ result.answer[0] }}/vote-up"> <img src={{ url_for("static", filename="arrow_up.ico" ) }} alt="Vote up" width="30" height="30" title="Vote up"></a>
+                    <a href="/answer/{{ result.answer[0] }}/vote-down"> <img src={{ url_for("static", filename="arrow_down.ico" ) }} alt="Vote down" width="30" height="30" title="Vote down"></a>        
+                </td>
             </tr>
             <tr>
-                {% if dict.comments|length %}
+                {% if result.comments|length %}
                     <thead>
                         <th>Id</th>
                         <th>Message</th>
                         <th>Submission time</th>
                     </thead>
-                    {% for comment in dict.comments %}
+                    {% for comment in result.comments %}
                         <tr>
                         {% for column in comment %}        
                             <td>{{ column }}</td>
