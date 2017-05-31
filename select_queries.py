@@ -73,13 +73,17 @@ def sql_answers_to_question(cursor, question_id):
             'result_set': []}
     cursor.execute("""
                    SELECT
-                   id AS "Id",
-                   submission_time AS "Submission time",
-                   vote_number AS "Vote number",
-                   message AS "Message",
-                   image AS "Image"
+                   answer.id AS "Id",
+                   user_mates.user_mates_name AS "Author",
+                   answer.submission_time AS "Submission time",
+                   answer.vote_number AS "Vote number",
+                   answer.message AS "Message",
+                   answer.image AS "Image"
                    FROM answer
-                   WHERE question_id={0}
+                   INNER JOIN user_mates
+                   ON answer.user_mates_id = user_mates.id
+                   WHERE answer.question_id = {0}
+                   ORDER BY answer.id
                    """.format(question_id))
     column_names = [desc[0] for desc in cursor.description]
     rows = cursor.fetchall()
@@ -190,7 +194,7 @@ def sql_get_latest_question(cursor):
 
 @connect_to_sql
 def sql_get_usernames(cursor, id=None):
-    if id == None:
+    if id is None:
         cursor.execute("""SELECT user_mates_name FROM user_mates""")
         return cursor.fetchall()
     else:

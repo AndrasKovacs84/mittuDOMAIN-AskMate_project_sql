@@ -64,7 +64,6 @@ def question(question_id):
     question_comments = select_queries.sql_gather_question_comments(question_id)
     answers = select_queries.sql_answers_to_question(question_id)
     selected_question = select_queries.sql_question_details(question_id)
-
     user = select_queries.sql_get_usernames(question_id)
     return render_template('question_details.html',
                            question=selected_question,
