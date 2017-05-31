@@ -194,5 +194,41 @@ def insert_user():
     return redirect('/')
 
 
+@app.route('/users', methods=['GET'])
+def list_users():
+    questions_table = user_queries.list_users()
+    form_action = '/'
+    button_caption = 'Back to index'
+    return render_template('user_list.html',
+                           form_action=form_action,
+                           questions=questions_table,
+                           button_caption=button_caption
+                           )
+  
+
+
+
+
+
+
+
+#@app.route('/', methods=['GET'])
+#def user_details(id):
+ #   user_queries.sql_user_details(id)
+    
+  #  form_action = '/'
+   # button_caption = 'Home'
+    #return render_template('user_detail_list.html',
+     #                      form_action=form_action,
+      #                     button_caption=button_caption
+       #                    )
+
+
+
+
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
