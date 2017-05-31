@@ -83,7 +83,7 @@ def sql_answers_to_question(cursor, question_id):
                    INNER JOIN user_mates
                    ON answer.user_mates_id = user_mates.id
                    WHERE answer.question_id = {0}
-                   ORDER BY answer.id
+                   ORDER BY answer.submission_time
                    """.format(question_id))
     column_names = [desc[0] for desc in cursor.description]
     rows = cursor.fetchall()
@@ -98,11 +98,15 @@ def sql_answers_to_question(cursor, question_id):
 def sql_gather_comments_for_answer(cursor, answer_id):
     cursor.execute("""
                    SELECT
-                   id AS "Id",
-                   message AS "Message",
-                   submission_time AS "Submission time"
+                   comment.id AS "Id",
+                   user_mates.user_mates_name AS "Author",
+                   comment.message AS "Message",
+                   comment.submission_time AS "Submission time"
                    FROM comment
+                   INNER JOIN user_mates
+                   ON comment.user_mates_id = user_mates.id
                    WHERE answer_id = {0}
+                   ORDER BY comment.submission_time
                    """.format(answer_id))
     comments = cursor.fetchall()
     return comments
@@ -135,11 +139,15 @@ def sql_gather_question_comments(cursor, question_id):
             'result_set': []}
     cursor.execute("""
                    SELECT
-                   id AS "Id",
-                   message AS "Message",
-                   submission_time AS "Submission time"
+                   comment.id AS "Id",
+                   user_mates.user_mates_name AS "Author",
+                   comment.message AS "Message",
+                   comment.submission_time AS "Submission time"
                    FROM comment
+                   INNER JOIN user_mates
+                   ON comment.user_mates_id = user_mates.id
                    WHERE question_id = {0}
+                   ORDER BY comment.submission_time
                    """.format(question_id))
     column_names = [desc[0] for desc in cursor.description]
     rows = cursor.fetchall()
