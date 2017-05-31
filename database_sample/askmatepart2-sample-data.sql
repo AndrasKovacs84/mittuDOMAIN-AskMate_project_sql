@@ -122,10 +122,10 @@ ALTER TABLE ONLY comment
 ALTER TABLE ONLY question_tag
     ADD CONSTRAINT fk_tag_id FOREIGN KEY (tag_id) REFERENCES tag(id);
 
-INSERT INTO user_mates VALUES (1, 'Norbi', NULL, '2017-04-25 14:42:00');
-INSERT INTO user_mates VALUES (2, 'Attila', NULL, '2017-04-25 14:43:00');
-INSERT INTO user_mates VALUES (3, 'Andris', NULL, '2017-04-25 14:44:00');
-INSERT INTO user_mates VALUES (4, 'bekor', NULL, '2017-04-25 14:45:00');
+INSERT INTO user_mates VALUES (1, 'Norbi', 0, '2017-04-25 14:42:00');
+INSERT INTO user_mates VALUES (2, 'Attila', 0, '2017-04-25 14:43:00');
+INSERT INTO user_mates VALUES (3, 'Andris', 0, '2017-04-25 14:44:00');
+INSERT INTO user_mates VALUES (4, 'bekor', 0, '2017-04-25 14:45:00');
 SELECT pg_catalog.setval('user_mates_id_seq', 4, true);
 
 INSERT INTO question VALUES (0, '2017-04-28 08:29:00', 29, 7, 'How to make lists in Python?', 'I am totally new to this, any hints?', NULL, 1);

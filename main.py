@@ -1,6 +1,7 @@
 import select_queries
 import delete_queries
 import insert_queries
+import user_queries
 import helper
 from flask import Flask, render_template, request, url_for, redirect
 from datetime import datetime
@@ -17,7 +18,6 @@ def list_questions():
     questions_table = select_queries.sql_get_latest_question()
     form_action = '/list'
     button_caption = 'Every question'
-    print(questions_table)
     return render_template('list.html',
                            form_action=form_action,
                            questions=questions_table,
@@ -184,6 +184,80 @@ def insert_answer_comment(answer_id):
     insert_queries.sql_insert_comment(comment, user_id)
     answer = select_queries.sql_answer_details(answer_id)
     return redirect('/question/' + str(answer['question_id']))
+
+
+@app.route('/users/<int:user_id>', methods=['GET'])
+def user_activities(user_id):
+    user_data = {'name': '',
+                 'reputation': '',
+                 'submission_time': ''}
+    user_activities = {'questions': [],
+                       'answers': [],
+                       'comments': []}
+    user_data = select_queries.sql_get_user_data_of_id(user_id)
+    user_activities = select_queries.sql_get_user_activities_of_id(user_id)
+    return render_template('user_activities.html', user_data=user_data,
+                           user_activities=user_activities)
+
+  
+@app.route('/registration', methods=['GET'])
+def new_user_form():
+    """ We arrive here from the index.html "Registration" button.
+    Displays an empty user form.
+    """
+    form_action = '/registration/new_user'
+    button_caption = 'Submit Registration'
+    return render_template('user_form.html',
+                           form_action=form_action,
+                           button_caption=button_caption
+                           )
+
+
+@app.route('/registration/new_user', methods=['POST'])
+def insert_user():
+    """ We arrive here from the user_form.html "Submit Registration" button.
+    Inicializing user data, end returning to index page. (In future to user page.)
+    """
+    user = helper.init_user_values(request.form)
+    user_queries.sql_insert_user(user)
+    # user_mate = user_queries.sql_select_user(answer_id)
+    return redirect('/')
+
+
+@app.route('/users', methods=['GET'])
+def list_users():
+    questions_table = user_queries.list_users()
+    form_action = '/'
+    button_caption = 'Back to index'
+    return render_template('user_list.html',
+                           form_action=form_action,
+                           questions=questions_table,
+                           button_caption=button_caption
+                           )
+  
+
+
+
+
+
+
+
+#@app.route('/', methods=['GET'])
+#def user_details(id):
+ #   user_queries.sql_user_details(id)
+    
+  #  form_action = '/'
+   # button_caption = 'Home'
+    #return render_template('user_detail_list.html',
+     #                      form_action=form_action,
+      #                     button_caption=button_caption
+       #                    )
+
+
+
+
+
+
 
 
 if __name__ == '__main__':

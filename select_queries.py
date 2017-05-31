@@ -223,3 +223,54 @@ def sql_get_user_id(cursor, username):
                    WHERE user_mates_name='{0}'
                    """.format(username))
     return cursor.fetchall()
+def sql_get_user_data_of_id(cursor, user_id):
+    user_data = {'name': '',
+                 'reputation': '',
+                 'submission_time': ''}
+    cursor.execute("""
+                   SELECT user_mates_name, reputation, submission_time
+                   FROM user_mates
+                   WHERE id={0}
+                   """.format(user_id))
+    rows = cursor.fetchall()
+    user_data['name'] = rows[0][0]
+    user_data['reputation'] = rows[0][1]
+    user_data['submission_time'] = rows[0][2]
+    return user_data
+
+
+@connect_to_sql
+def sql_get_user_activities_of_id(cursor, user_id):
+    """Compiles all activity belonging to user of given user_id."""
+    user_activities = {'questions': [],
+                       'answers': [],
+                       'comments': []}
+    cursor.execute("""
+                   SELECT id, title, message
+                   FROM question
+                   WHERE user_mates_id={0}
+                   """.format(user_id))
+    rows = cursor.fetchall()
+    for row in rows:
+        user_activities['questions'].append({'id': row[0],
+                                             'title': row[1],
+                                             'message': row[2]})
+    cursor.execute("""
+                   SELECT question_id, message
+                   FROM answer
+                   WHERE user_mates_id={0}
+                   """.format(user_id))
+    rows = cursor.fetchall()
+    for row in rows:
+        user_activities['answers'].append({'question_id': row[0],
+                                           'message': row[1]})
+    cursor.execute("""
+                   SELECT question_id, message
+                   FROM comment
+                   WHERE user_mates_id={0}
+                   """.format(user_id))
+    rows = cursor.fetchall()
+    for row in rows:
+        user_activities['comments'].append({'question_id': row[0],
+                                            'message': row[1]})
+    return user_activities

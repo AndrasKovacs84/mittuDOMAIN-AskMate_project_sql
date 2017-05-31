@@ -50,3 +50,15 @@ def init_comment_values(req_form, path, id):
     comment['submission_time'] = "'" + str(datetime.now())[:-7] + "'"
 
     return comment
+
+
+# Create new user with its elements in the data table
+# SQL table title: Id, User mates name; Reputation; Submission time
+#
+# @req_form: dictionary from html form
+def init_user_values(req_form):
+    user_mates_name = req_form["new_user_name"]
+    reputation = 0
+    local_time = datetime.now()
+    new_user_mates = [user_mates_name, reputation, str(local_time)[:-7]]
+    return new_user_mates
