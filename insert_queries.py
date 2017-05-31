@@ -5,10 +5,11 @@ import select_queries
 @connect_to_sql
 def sql_insert_new_question(cursor, question_values):
     cursor.execute("""
-                   INSERT INTO question(submission_time, view_number, vote_number, title, message)
-                   VALUES ('{0}', {1}, {2}, '{3}', '{4}')
+                   INSERT INTO question(submission_time, view_number, vote_number, title, message, user_mates_id)
+                   VALUES ('{0}', {1}, {2}, '{3}', '{4}', {5});
                    """.format(question_values[0], question_values[1],
-                              question_values[2], question_values[3], question_values[4]))
+                              question_values[2], question_values[3],
+                              question_values[4], question_values[6]))
     new_id = select_queries.sql_select_latest_question()
     return new_id[0]
 

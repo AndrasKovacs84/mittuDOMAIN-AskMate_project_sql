@@ -186,3 +186,18 @@ def sql_get_latest_question(cursor):
     data['header'] = column_names
     data['result_set'] = rows
     return data
+
+
+@connect_to_sql
+def sql_get_usernames(cursor):
+    cursor.execute("""SELECT user_mates_name FROM user_mates""")
+    return cursor.fetchall()
+
+
+@connect_to_sql
+def sql_get_user_id(cursor, username):
+    cursor.execute("""
+                   SELECT id FROM user_mates
+                   WHERE user_mates_name='{0}'
+                   """.format(username))
+    return cursor.fetchall()

@@ -13,14 +13,20 @@
     <div class="question_form">
         <center>
         <b>
+        <form action= "{{ form_action }}" method="POST">
             {% if not question.title %}
             <h2>Post New Question</h2>
-            {% else %}
-            <h2>Edit Question</h2>
-            {% endif %}
-        </b></center>
+                <select name='selected_user'>
+                {% for name in usernames %}
+                    <option value= {{ name[0] }} > {{ name[0] }} </option>
+                {% endfor %}
+                </select>
+                {% else %}
+                <h2>Edit Question</h2>
+                {% endif %}
+        </b>
+        </center>
         <center>
-        <form action= "{{ form_action }}" method="POST">
             <br>
             <br>
             <label>Question Title:</label>

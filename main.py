@@ -45,10 +45,12 @@ def new_question():
     question = {'result_set': [['', '']]}
     form_action = '/question/new_id'
     button_caption = 'Post Question'
+    usernames = select_queries.sql_get_usernames()
     return render_template('question_form.html',
                            form_action=form_action,
                            question=question,
-                           button_caption=button_caption
+                           button_caption=button_caption,
+                           usernames=usernames
                            )
 
 
@@ -105,9 +107,12 @@ def new_answer_id():
 
 @app.route('/question/new_id', methods=['POST'])
 def new_question_id():
+    """ Handles the post request of the new question form
+    """
+    user_id = select_queries.sql_get_user_id(request.form["selected_user"])[0][0]
     button_value = request.form["button"]
     if button_value == "Post Question":
-        new_question = helper.init_question_values(request.form)
+        new_question = helper.init_question_values(request.form, user_id)
         new_question_id = insert_queries.sql_insert_new_question(new_question)
         return redirect("/question/" + str(int(new_question_id)))
 
@@ -127,6 +132,8 @@ def delete_question(question_id):
 
 @app.route('/question/<int:question_id>/edit', methods=['GET'])
 def edit_question_form(question_id):
+    """ Edits the question form
+    """
     question = select_queries.sql_question_details(question_id)
     form_action = '/question/' + str(question_id)
     button_caption = 'Update Question'
