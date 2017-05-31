@@ -223,6 +223,9 @@ def sql_get_user_id(cursor, username):
                    WHERE user_mates_name='{0}'
                    """.format(username))
     return cursor.fetchall()
+
+
+@connect_to_sql
 def sql_get_user_data_of_id(cursor, user_id):
     user_data = {'name': '',
                  'reputation': '',
