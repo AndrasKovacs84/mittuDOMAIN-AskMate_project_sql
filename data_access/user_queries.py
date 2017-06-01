@@ -7,26 +7,29 @@ def get_usernames(cursor, question_id=None):
         cursor.execute("""SELECT user_mates_name FROM user_mates""")
         return cursor.fetchall()
     else:
-        cursor.execute("""
-                       SELECT user_mates_id
-                       FROM question
-                       WHERE id = {0}
-                       """.format(question_id))
+        query = """
+                SELECT user_mates_id
+                FROM question
+                WHERE id = %s
+                """
+        cursor.execute(query, (question_id,))
         user_id = cursor.fetchall()[0][0]
-        cursor.execute("""
-                       SELECT user_mates_name
-                       FROM user_mates
-                       WHERE id = {0}
-                       """.format(user_id))
+        query = """
+                SELECT user_mates_name
+                FROM user_mates
+                WHERE id = %s
+                """
+        cursor.execute(query, (user_id,))
         return cursor.fetchall()[0][0]
 
 
 @connect_to_sql
 def get_user_id(cursor, username):
-    cursor.execute("""
-                   SELECT id FROM user_mates
-                   WHERE user_mates_name='{0}'
-                   """.format(username))
+    query = """
+            SELECT id FROM user_mates
+            WHERE user_mates_name=%s
+            """
+    cursor.execute(query, (username,))
     return cursor.fetchall()
 
 
@@ -35,11 +38,12 @@ def get_user_data_of_id(cursor, user_id):
     user_data = {'name': '',
                  'reputation': '',
                  'submission_time': ''}
-    cursor.execute("""
-                   SELECT user_mates_name, reputation, submission_time
-                   FROM user_mates
-                   WHERE id={0}
-                   """.format(user_id))
+    query = """
+            SELECT user_mates_name, reputation, submission_time
+            FROM user_mates
+            WHERE id=%s
+            """
+    cursor.execute(query, (user_id,))
     rows = cursor.fetchall()
     user_data['name'] = rows[0][0]
     user_data['reputation'] = rows[0][1]
