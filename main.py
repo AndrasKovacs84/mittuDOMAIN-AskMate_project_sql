@@ -1,5 +1,5 @@
 import helper
-from data_access import user_queries, multi_table_queries, question_queries, answer_queries, comment_queries
+from data_access import user_queries, multi_table_queries, question_queries, answer_queries, comment_queries, tag_queries
 from data_access.server_connection import connect
 from flask import Flask, render_template, request, url_for, redirect, abort
 from datetime import datetime
@@ -78,8 +78,8 @@ def update_question(question_id):
                           'title': None,
                           'message': None}
     question_to_update['id'] = question_id
-    question_to_update['title'] = "'" + request.form['title'].replace("'", "''") + "'"
-    question_to_update['message'] = "'" + request.form['story'].replace("'", "''") + "'"
+    question_to_update['title'] = request.form['title']
+    question_to_update['message'] = request.form['story']
     question_queries.update_question_details(question_to_update)
     return redirect('/question/' + str(question_id))
 
