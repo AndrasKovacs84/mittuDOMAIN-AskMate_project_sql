@@ -1,4 +1,4 @@
-from server_connection.connect import connect_to_sql
+from .server_connection.connect import connect_to_sql
 
 
 @connect_to_sql
@@ -49,7 +49,7 @@ def answers_to_question(cursor, question_id):
     rows = cursor.fetchall()
     data['header'] = column_names
     for answer in rows:
-        comments = sql_gather_comments_for_answer(answer[0])
+        comments = gather_comments_for_answer(answer[0])
         data['result_set'].append({'answer': answer, 'comments': comments})
     return data
 

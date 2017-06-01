@@ -1,5 +1,5 @@
 import psycopg2
-from . import personal_config
+from .personal_config import my_connection
 
 
 def connect_to_sql(func):
@@ -8,7 +8,7 @@ def connect_to_sql(func):
         sql_query_func = None
         try:
             # setup connection string
-            connect_str = personal_config.my_connection()
+            connect_str = my_connection()
             # use our connection values to establish a connection
             connection = psycopg2.connect(host=connect_str["host"],
                                           user=connect_str["user"],

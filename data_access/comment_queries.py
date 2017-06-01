@@ -1,4 +1,4 @@
-from server_connection.connect import connect_to_sql
+from .server_connection.connect import connect_to_sql
 
 
 @connect_to_sql

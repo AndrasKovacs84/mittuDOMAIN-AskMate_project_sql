@@ -1,4 +1,4 @@
-from server_connection.connect import connect_to_sql
+from .server_connection.connect import connect_to_sql
 
 
 @connect_to_sql
@@ -53,7 +53,7 @@ def update_question_details(cursor, new_question_details):
                               new_question_details['message'],
                               new_question_details['id']))
 
-# OBSOLETE?
+
 @connect_to_sql
 def select_latest_question(cursor):
     cursor.execute("""
@@ -77,5 +77,5 @@ def insert_new_question(cursor, question_values):
                    """.format(question_values[0], question_values[1],
                               question_values[2], question_values[3],
                               question_values[4], question_values[6]))
-    new_id = select_queries.sql_select_latest_question()
+    new_id = select_latest_question()
     return new_id[0]
