@@ -205,9 +205,13 @@ def new_user_form():
     """ We arrive here from the index.html "Registration" button.
     Displays an empty user form.
     """
+    name_exist = ""
+    if "messages" in request.args:
+        name_exist = request.args['messages']
     form_action = '/registration/new_user'
     button_caption = 'Submit Registration'
     return render_template('user_form.html',
+                           name_exist=name_exist,
                            form_action=form_action,
                            button_caption=button_caption
                            )
@@ -219,9 +223,13 @@ def insert_user():
     Inicializing user data, end returning to index page. (In future to user page.)
     """
     user = helper.init_user_values(request.form)
-    user_queries.sql_insert_user(user)
+    insertion = user_queries.sql_insert_user(user)
     # user_mate = user_queries.sql_select_user(answer_id)
-    return redirect('/')
+    if not insertion:
+        messages = "User name already exists!"
+        return redirect(url_for('new_user_form', messages=messages))
+    else:
+        return redirect('/')
 
 
 @app.route('/users', methods=['GET'])
@@ -280,16 +288,19 @@ def answer_vote_down(answer_id):
 
 @app.errorhandler(TypeError)
 def server_side_type_error(e):
+    print(e)
     return render_template('500.html'), 500
 
 
 @app.errorhandler(AttributeError)
 def server_side_attribute_error(e):
+    print(e)
     return render_template('500.html'), 500
 
 
 @app.errorhandler(NameError)
-def user_side_name_error():
+def user_side_name_error(e):
+    print(e)
     return render_template('404.html'), 404
 
 

@@ -1,5 +1,6 @@
 import psycopg2
 import personal_config
+import sys
 
 
 def connect_to_sql(func):
@@ -24,6 +25,12 @@ def connect_to_sql(func):
 
             # Close communication with the database
             cursor.close()
+
+        except psycopg2.IntegrityError as db_exception:
+            print("From IntegrityError: %s" % db_exception)
+            # If you want to handle it on an other level raise the following:
+            print(db_exception.with_traceback(sys.exc_info()[2]))
+
         except psycopg2.DatabaseError as db_exception:
             print("From DatabaseError: %s" % db_exception)
             # If you want to handle it on an other level raise the following:
