@@ -42,3 +42,14 @@ def sql_update_vote_nr(cursor, table, id, amount):
                    SET vote_number = vote_number{1}
                    WHERE id={2}
                    """.format(table, amount, id))
+
+
+@connect_to_sql
+def sql_update_reputation(cursor, table, activity_id, amount_to_change):
+    # INNER JOIN {1} ON user_mates.id={1}.user_mates_id
+    cursor.execute("""
+    UPDATE user_mates
+    SET reputation = reputation{0}
+    FROM {1}
+    WHERE {1}.id={2} AND {1}.user_mates_id=user_mates.id
+    """.format(amount_to_change, table, activity_id))

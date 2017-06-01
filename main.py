@@ -238,35 +238,43 @@ def list_users():
 
 @app.route('/question/<int:question_id>/vote-up', methods=['POST'])
 def question_vote_up(question_id):
-    change = '+1'
+    vote_change = '+1'
+    reputation_change ='+5'
     table = 'question'
-    insert_queries.sql_update_vote_nr(table, question_id, change)
+    insert_queries.sql_update_reputation(table, question_id, reputation_change)
+    insert_queries.sql_update_vote_nr(table, question_id, vote_change)
     return redirect('/question/' + str(question_id))
 
 
 @app.route('/question/<int:question_id>/vote-down', methods=['POST'])
 def question_vote_down(question_id):
-    change = '-1'
+    vote_change = '-1'
     table = 'question'
-    insert_queries.sql_update_vote_nr(table, question_id, change)
+    reputation_change = '-2'
+    insert_queries.sql_update_reputation(table, question_id, reputation_change)
+    insert_queries.sql_update_vote_nr(table, question_id, vote_change)
     return redirect('/question/' + str(question_id))
 
 
 @app.route('/answer/<int:answer_id>/vote-up', methods=['POST'])
 def answer_vote_up(answer_id):
-    change = '+1'
+    vote_change = '+1'
     table = 'answer'
+    reputation_change = '+10'
     answer = select_queries.sql_answer_details(answer_id)
-    insert_queries.sql_update_vote_nr(table, answer_id, change)
+    insert_queries.sql_update_reputation(table, answer_id, reputation_change)
+    insert_queries.sql_update_vote_nr(table, answer_id, vote_change)
     return redirect('/question/' + str(answer['question_id']))
 
 
 @app.route('/answer/<int:answer_id>/vote-down', methods=['POST'])
 def answer_vote_down(answer_id):
-    change = '-1'
+    vote_change = '-1'
     table = 'answer'
+    reputation_change = '-2'
     answer = select_queries.sql_answer_details(answer_id)
-    insert_queries.sql_update_vote_nr(table, answer_id, change)
+    insert_queries.sql_update_reputation(table, answer_id, reputation_change)
+    insert_queries.sql_update_vote_nr(table, answer_id, vote_change)
     return redirect('/question/' + str(answer['question_id']))
 
 
