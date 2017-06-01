@@ -18,7 +18,7 @@
             <tr>
                 {% for header in questions['header'] %}
                     <!--Omit message text header-->
-                    {% if loop.index != 6 %}
+                    {% if loop.index != 7 %}
                     <th>
                         {{ header }}
                         <br>
@@ -35,7 +35,7 @@
                 <tr>
                     {% for data in row %}
                         <!--Omit message text-->
-                        {% if loop.index != 6 %}
+                        {% if loop.index != 7 %}
                         <td>{{ data }}</td>
                         {% endif %}
                         {% if loop.index == row|length %}
