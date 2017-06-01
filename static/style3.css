@@ -151,7 +151,15 @@ font-size: 80%;
 
 }
 
+/* for user page, check input */
+.user_name_body input:invalid{
+    border-color: #DD2C00;
+}
 
+.user_name_body input,
+.user_name_body input:valid{
+    border-color: #ccc;
+}
 
 /* for custom scrollbar for webkit browser*/
 

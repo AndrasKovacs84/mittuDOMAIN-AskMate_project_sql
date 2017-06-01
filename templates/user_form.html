@@ -6,12 +6,16 @@
     <title>User Registration</title>
 </head>
 <body>
-    <div class="user_name">
+    <div class="user_name_body">
         <h2>Hello New User Mate</h2>
         <p>This is your registration page</p>
         <h3>Your User Name</h3>
         <form action="{{ form_action }}" method="POST">
-            <input type=text name=new_user_name>
+            <input class="user_name_form" type=text name=new_user_name pattern="[A-Za-z0-9]+"
+                   required minlength="3"
+                   required maxlength="24"
+                   placeholder="Username" 
+                   title="Username should only contain letters and numbers min. length 3 character, max. length 24 character. e.g. John1">
             <input type="submit" value="{{ button_caption }}"  name="button" align="center"/>
         </form>
     </div>
