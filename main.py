@@ -286,6 +286,12 @@ def answer_vote_down(answer_id):
     return redirect('/question/' + str(answer['question_id']))
 
 
+@app.route('/answer/<int:answer_id>', methods=['GET'])
+def comment_to_answer_to_question(answer_id):
+    answer = select_queries.sql_answer_details(answer_id)
+    return redirect('/question/' + str(answer['question_id']))
+
+
 @app.errorhandler(TypeError)
 def server_side_type_error(e):
     print(e)
@@ -302,24 +308,6 @@ def server_side_attribute_error(e):
 def user_side_name_error(e):
     print(e)
     return render_template('404.html'), 404
-
-
-#@app.route('/', methods=['GET'])
-#def user_details(id):
- #   user_queries.sql_user_details(id)
-    
-  #  form_action = '/'
-   # button_caption = 'Home'
-    #return render_template('user_detail_list.html',
-     #                      form_action=form_action,
-      #                     button_caption=button_caption
-       #                    )
-
-
-
-
-
-
 
 
 if __name__ == '__main__':

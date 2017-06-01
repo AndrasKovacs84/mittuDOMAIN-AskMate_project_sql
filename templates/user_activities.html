@@ -42,7 +42,11 @@
             <caption>Comments:</caption>
             {% for comment in user_activities.comments %}
                 <tr>
+                    {% if comment.question_id != None %}
                     <td><a href="../question/{{comment.question_id}}">{{ comment.message }}</a></td>
+                    {% elif comment.answer_id != None %}
+                    <td><a href="../answer/{{comment.answer_id}}">{{ comment.message }}</a></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </table>
