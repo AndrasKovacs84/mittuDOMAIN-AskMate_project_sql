@@ -157,8 +157,8 @@ td{
   padding: 15px;
   text-align: left;
   vertical-align:middle;
-  font-weight: 300;
-  font-size: 12px;
+  font-weight: 400;
+  font-size: 13px;
   color:black;
   border-bottom: solid 1px rgba(255,255,255,0.1);
 }
@@ -217,6 +217,12 @@ font-size: 80%;
     transform: scale(0.6);
 }
 
+.back_to_index{
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    display: block;
+}
 
 /* for user page, check input */
 .user_name_body input:invalid{
@@ -242,3 +248,4 @@ font-size: 80%;
 } 
 ::-webkit-scrollbar-thumb {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+}

@@ -9,8 +9,8 @@
         <div>
             <p>User:</p>
             <select name='selected_user'>
-                {% for name in usernames %}
-                    <option value= {{ name[0] }} > {{ name[0] }} </option>
+                {% for user_values in usernames %}
+                    <option value= {{ user_values[0] }} > {{ user_values[0] }} </option>
                 {% endfor %}
             </select>
         </div>

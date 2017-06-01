@@ -29,12 +29,12 @@
     </div>
     <div class="question_comments">
         {% if question_comments.result_set|length %}
-        <h2>Comments to question</h2>
         <div class="tbl-header">
+        <h2>Comments to question</h2>
             <table cellpadding="0" cellspacing="0" border="0">
                 <thead>
-                    {% for header in question_comments.header %}
-                        <th>{{ header }}</th>
+                    {% for q_comment_table_name in question_comments.header[1:] %}
+                        <th>{{ q_comment_table_name }}</th>
                     {% endfor %}
                 </thead>
             </table>
@@ -42,10 +42,10 @@
         <div class="tbl-content_for_details">
             <table cellpadding="0" cellspacing="0" border="0">
                 <tbody>
-                {% for comment in question_comments.result_set %}
+                {% for comment_values in question_comments.result_set %}
                     <tr>
-                        {% for item in comment %}
-                        <td>{{ item }}</td>
+                        {% for c_value in comment_values[1:] %}
+                        <td>{{ c_value }}</td>
                         {% endfor %}
                     </tr>
                 {% endfor %}
@@ -56,14 +56,14 @@
     </div>
     <div class="answers_body">
         {% if answers.result_set|length %}
-        {% for result in answers.result_set %}
+        {% for answers_and_comments in answers.result_set %}
             <div class="tbl-header">
-                <h2 class="answer_head">Answers</h2>
+                <h2 class="answer_head">Answer {{ loop.index }}</h2>
                 <table cellpadding="0" cellspacing="0" border="0">
-                    {% if result.comments|length %}
+                    {% if answers_and_comments.comments|length %}
                     <thead>
-                        {% for column_name in answers.header %}
-                            <th>{{ column_name }}</th>
+                        {% for answers_table_name in answers.header[1:] %}
+                            <th>{{ answers_table_name }}</th>
                         {% endfor %}
                         <th></th>
                         <th>Vote</th>
@@ -75,18 +75,18 @@
                 <table cellpadding="0" cellspacing="0" border="0">
                     <tbody>
                     <tr>
-                        {% for column in result.answer %}
-                            <td>{{ column }}</td>
+                        {% for answers_value in answers_and_comments.answer[1:] %}
+                            <td>{{ answers_value }}</td>
                         {% endfor %}
-                        <td><button name="index_button" onclick="location.href='/answer/{{ result.answer[0] }}/new-comment'" type="button">Add comment</button></td>
+                        <td><button name="index_button" onclick="location.href='/answer/{{ answers_and_comments.answer[0] }}/new-comment'" type="button">Add comment</button></td>
                         <td class="vote_wrapper">
-                            <form action="/answer/{{ result.answer[0] }}/vote-up" method="post">
+                            <form action="/answer/{{ answers_and_comments.answer[0] }}/vote-up" method="post">
                                 <button name="vote_up" value="Vote up">
                                     <img src={{ url_for("static", filename="arrow_up.ico" ) }} alt="Vote up" width="30" height="30" title="Vote up">
                                 </button>
                             </form>
 
-                            <form action="/answer/{{ result.answer[0] }}/vote-down" method="post">
+                            <form action="/answer/{{ answers_and_comments.answer[0] }}/vote-down" method="post">
                                 <button name="vote_down" value="Vote down">
                                     <img src={{ url_for("static", filename="arrow_down.ico" ) }} alt="Vote down" width="30" height="30" title="Vote down">
                                 </button>
@@ -96,12 +96,11 @@
                     </tbody>
                 </table>
             </div>
-            {% if result.comments|length %}
+            {% if answers_and_comments.comments|length %}
             <div class="tbl-header">
-                <h2>Comments to answer</h2>
+                <h2>Comments to answer {{ loop.index }}</h2>
                 <table cellpadding="0" cellspacing="0" border="0">
                     <thead>
-                        <th>Id</th>
                         <th>Author</th>
                         <th>Message</th>
                         <th>Submission time</th>
@@ -111,10 +110,10 @@
             <div class="tbl-content_for_details">
                 <table cellpadding="0" cellspacing="0" border="0">
                     <tbody>
-                            {% for comment in result.comments %}
+                            {% for comment in answers_and_comments.comments %}
                                 <tr>
-                                {% for column in comment %}
-                                    <td>{{ column }}</td>
+                                {% for c_value in comment[1:] %}
+                                    <td>{{ c_value }}</td>
                                 {% endfor %}
                                 </tr>
                             {% endfor %}

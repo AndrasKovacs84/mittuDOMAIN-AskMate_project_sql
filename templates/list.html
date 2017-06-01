@@ -1,9 +1,6 @@
 {% extends "base.html" %}
 {% block title %} AskMate v.03 {% endblock %}
 {% block body %}
-<header class="mainHeader">
-    <h1>ASK MATE</h1>
-</header>
 <div class="top_button_list">
     <button name="new_user_name" onclick="location.href='/registration'" type="button">Registration</button>
     <button name="list_users" onclick="location.href='/users'" type="button">List Users</button>
@@ -15,10 +12,10 @@
         <table cellpadding="0" cellspacing="0" border="0">
             <thead>
                 <tr>
-                {% for header in questions['header'] %}
+                {% for qusetion_table_name in questions.header[1:] %}
                     {% if loop.index != 7 %}
                     <th>
-                        {{ header }}
+                        {{ qusetion_table_name }}
                         <!--<a href="/dummy_url"> <img src={{ url_for("static", filename="arrow_up.ico" ) }} alt="Ascending order" width="30" height="30" title="Ascending order"></a>
                         <a href="/dummy_url"> <img src={{ url_for("static", filename="arrow_down.ico" ) }} alt="Descending order" width="30" height="30" title="Descending order"></a>-->
                     </th>
@@ -34,17 +31,17 @@
 <div class="tbl-content">
     <table cellpadding="0" cellspacing="0" border="0">
         <tbody>
-        {% for row in questions['result_set'] %}
+        {% for question_values in questions.result_set %}
             <tr>
-                {% for data in row %}
-                    {% if loop.index != 7 %}
-                    <td>{{ data }}</td>
+                {% for q_value in question_values[1:] %}
+                    {% if loop.index != 6 %}
+                    <td>{{ q_value }}</td>
                     {% endif %}
-                    {% if loop.index == row|length %}
-                    <td><button name="index_button" onclick="location.href='/question/{{ row[0] }}'" type="button">View</button></td>
-                    <td><a href="/question/{{ row[0] }}/edit"> <img src={{ url_for("static", filename="edit.png" ) }} alt="edit" width="30" height="30" title="edit"></a></td>
+                    {% if loop.index == question_values[1:]|length %}
+                    <td><button name="index_button" onclick="location.href='/question/{{ question_values[0] }}'" type="button">View</button></td>
+                    <td><a href="/question/{{ question_values[0] }}/edit"> <img src={{ url_for("static", filename="edit.png" ) }} alt="edit" width="30" height="30" title="edit"></a></td>
                     <td>
-                        <form  action="/question/{{ row[0] }}/delete" method="POST" name="delete_button">
+                        <form  action="/question/{{ question_values[0] }}/delete" method="POST" name="delete_button">
                             <input type="image" src={{ url_for("static", filename="delete.png") }} alt="Delete" width="30" height="30">
                         </form>
                     </td>
