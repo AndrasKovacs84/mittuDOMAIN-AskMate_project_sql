@@ -1,5 +1,5 @@
 import psycopg2
-import personal_config
+from . import personal_config
 
 
 def connect_to_sql(func):

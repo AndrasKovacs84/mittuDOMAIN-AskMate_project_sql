@@ -1,17 +1,8 @@
-from connect import connect_to_sql
+from server_connection.connect import connect_to_sql
 
 
 @connect_to_sql
-def sql_get_question_text(cursor, question_id):
-    cursor.execute("""
-                   SELECT title, message FROM question WHERE id = '{0}';
-                   """.format(question_id)
-                   )
-    return cursor.fetchall()[0]
-
-
-@connect_to_sql
-def sql_list_questions(cursor, sort='submission_time DESC'):
+def list_questions(cursor, sort='submission_time DESC'):
     data = {'header': [],
             'result_set': []}
     cursor.execute("""
@@ -37,41 +28,7 @@ def sql_list_questions(cursor, sort='submission_time DESC'):
 
 
 @connect_to_sql
-def sql_update_question_view_count(cursor, question_id):
-    cursor.execute("""
-                   UPDATE question
-                   SET view_number = view_number + 1
-                   WHERE id={0}
-                   """.format(question_id))
-
-
-@connect_to_sql
-def sql_question_details(cursor, question_id):
-    cursor.execute("""
-                   SELECT
-                   id AS "Id",
-                   submission_time AS "Submission time",
-                   view_number AS "View number",
-                   vote_number AS "Vote number",
-                   title AS "Title",
-                   message AS "Message",
-                   image AS "Image"
-                   FROM question
-                   WHERE id={0}
-                   """.format(question_id))
-    result = cursor.fetchall()
-    question = {'id': result[0][0],
-                'submission_time': result[0][1],
-                'view_number': result[0][2],
-                'vote_number': result[0][3],
-                'title': result[0][4],
-                'message': result[0][5],
-                'image': result[0][6]}
-    return question
-
-
-@connect_to_sql
-def sql_answers_to_question(cursor, question_id):
+def answers_to_question(cursor, question_id):
     data = {'header': [],
             'result_set': []}
     cursor.execute("""
@@ -98,7 +55,7 @@ def sql_answers_to_question(cursor, question_id):
 
 
 @connect_to_sql
-def sql_gather_comments_for_answer(cursor, answer_id):
+def gather_comments_for_answer(cursor, answer_id):
     cursor.execute("""
                    SELECT
                    comment.id AS "Id",
@@ -116,28 +73,7 @@ def sql_gather_comments_for_answer(cursor, answer_id):
 
 
 @connect_to_sql
-def sql_update_question_details(cursor, new_question_details):
-    cursor.execute("""
-                   UPDATE question
-                   SET title = {0}, message = {1}
-                   WHERE id = {2}
-                   """.format(new_question_details['title'],
-                              new_question_details['message'],
-                              new_question_details['id']))
-
-
-@connect_to_sql
-def sql_select_latest_question(cursor):
-    cursor.execute("""
-                   SELECT max(id)
-                   FROM question
-                   """)
-    row = cursor.fetchall()
-    return row[0]
-
-
-@connect_to_sql
-def sql_gather_question_comments(cursor, question_id):
+def gather_question_comments(cursor, question_id):
     data = {'header': [],
             'result_set': []}
     cursor.execute("""
@@ -160,30 +96,7 @@ def sql_gather_question_comments(cursor, question_id):
 
 
 @connect_to_sql
-def sql_answer_details(cursor, answer_id):
-    cursor.execute("""
-                   SELECT
-                   id AS "Id",
-                   submission_time AS "Submission time",
-                   vote_number AS "Vote number",
-                   question_id AS "Question id",
-                   message AS "Message",
-                   image AS "Image"
-                   FROM answer
-                   WHERE id={0}
-                   """.format(answer_id))
-    result = cursor.fetchall()
-    answer = {'id': result[0][0],
-              'submission_time': result[0][1],
-              'vote_number': result[0][2],
-              'question_id': result[0][3],
-              'message': result[0][4],
-              'image': result[0][5]}
-    return answer
-
-
-@connect_to_sql
-def sql_get_latest_question(cursor):
+def get_latest_question(cursor):
     data = {'header': [],
             'result_set': []}
     cursor.execute("""
@@ -209,53 +122,7 @@ def sql_get_latest_question(cursor):
 
 
 @connect_to_sql
-def sql_get_usernames(cursor, question_id=None):
-    if question_id is None:
-        cursor.execute("""SELECT user_mates_name FROM user_mates""")
-        return cursor.fetchall()
-    else:
-        cursor.execute("""
-                       SELECT user_mates_id
-                       FROM question
-                       WHERE id = {0}
-                       """.format(question_id))
-        user_id = cursor.fetchall()[0][0]
-        cursor.execute("""
-                       SELECT user_mates_name
-                       FROM user_mates
-                       WHERE id = {0}
-                       """.format(user_id))
-        return cursor.fetchall()[0][0]
-
-
-@connect_to_sql
-def sql_get_user_id(cursor, username):
-    cursor.execute("""
-                   SELECT id FROM user_mates
-                   WHERE user_mates_name='{0}'
-                   """.format(username))
-    return cursor.fetchall()
-
-
-@connect_to_sql
-def sql_get_user_data_of_id(cursor, user_id):
-    user_data = {'name': '',
-                 'reputation': '',
-                 'submission_time': ''}
-    cursor.execute("""
-                   SELECT user_mates_name, reputation, submission_time
-                   FROM user_mates
-                   WHERE id={0}
-                   """.format(user_id))
-    rows = cursor.fetchall()
-    user_data['name'] = rows[0][0]
-    user_data['reputation'] = rows[0][1]
-    user_data['submission_time'] = rows[0][2]
-    return user_data
-
-
-@connect_to_sql
-def sql_get_user_activities_of_id(cursor, user_id):
+def get_user_activities_of_id(cursor, user_id):
     """Compiles all activity belonging to user of given user_id."""
     user_activities = {'questions': [],
                        'answers': [],
@@ -292,3 +159,10 @@ def sql_get_user_activities_of_id(cursor, user_id):
     return user_activities
 
 
+@connect_to_sql
+def update_vote_nr(cursor, table, id, amount):
+    cursor.execute("""
+                   UPDATE {0}
+                   SET vote_number = vote_number{1}
+                   WHERE id={2}
+                   """.format(table, amount, id))
