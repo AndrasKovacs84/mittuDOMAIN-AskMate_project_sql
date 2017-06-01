@@ -278,22 +278,10 @@ def answer_vote_down(answer_id):
     return redirect('/question/' + str(answer['question_id']))
 
 
-#@app.route('/', methods=['GET'])
-#def user_details(id):
- #   user_queries.sql_user_details(id)
-    
-  #  form_action = '/'
-   # button_caption = 'Home'
-    #return render_template('user_detail_list.html',
-     #                      form_action=form_action,
-      #                     button_caption=button_caption
-       #                    )
-
-
-
-
-
-
+@app.route('/answer/<int:answer_id>', methods=['GET'])
+def comment_to_answer_to_question(answer_id):
+    answer = select_queries.sql_answer_details(answer_id)
+    return redirect('/question/' + str(answer['question_id']))
 
 
 if __name__ == '__main__':

@@ -280,12 +280,15 @@ def sql_get_user_activities_of_id(cursor, user_id):
         user_activities['answers'].append({'question_id': row[0],
                                            'message': row[1]})
     cursor.execute("""
-                   SELECT question_id, message
+                   SELECT question_id, answer_id, message
                    FROM comment
                    WHERE user_mates_id={0}
                    """.format(user_id))
     rows = cursor.fetchall()
     for row in rows:
         user_activities['comments'].append({'question_id': row[0],
-                                            'message': row[1]})
+                                            'answer_id': row[1],
+                                            'message': row[2]})
     return user_activities
+
+
