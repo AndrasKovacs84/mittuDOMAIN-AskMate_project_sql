@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS public.user_mates;
 DROP SEQUENCE IF EXISTS public.user_mates_id_seq;
 CREATE TABLE user_mates (
     id serial NOT NULL,
-    user_mates_name varchar(40) NOT NULL,
+    user_mates_name varchar(40) NOT NULL UNIQUE,
     reputation int,
     submission_time timestamp without time zone
 );
