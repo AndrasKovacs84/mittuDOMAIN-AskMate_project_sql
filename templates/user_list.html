@@ -1,68 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <head>
-
-	<title>CSS Zen Garden by BOKOR ATTILA. fully responsive with html5 and CSS#</title>
-	<meta charset="utf-8">
-	<link rel="stylesheet" href="{{ url_for('static', filename='style3.css') }}" type="text/css">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-</head>
-
-
-<body class="blue_body">
-
-
+{% extends "base.html" %}
+{% block title %} Users List {% endblock %}
+{% block body %}
 <header class="mainHeader">
     <h1>ASK MATE USERS</h1>
 
 </header>
-
-
-<!--<div class="mainContent">-->
-    <!--<div class="list_body">-->
-        <section>
-        <div class="tbl-header">
+    <section>
+      <div class="tbl-header">
         <table cellpadding="0" cellspacing="0" border="0">
             <thead>
-            <tr>
-                {% for header in questions['header'][1:] %}
-                <th>
-                    {{ header }}
-                </th>
-                {% endfor %}
-            </tr>
+                <tr>
+                    {% for header in questions['header'][1:] %}
+                    <th>
+                        {{ header }}
+                    </th>
+                    {% endfor %}
+                </tr>
             </thead>
         </table>
         </div>
         <div class="tbl-content">
             <table cellpadding="0" cellspacing="0" border="0">
                 <tbody>
-            {% for row in questions['result_set'] %}
-            <tr><a href="/">
-                {% for data in row[1:] %}
-                <td><a class="user_detail" href="/users/{{row[0]}}">{{ data }}</a></td>
-                {% endfor %}
-            {% endfor %} 
-            </tr>
+                    {% for row in questions['result_set'] %}
+                    <tr><a href="/">
+                        {% for data in row[1:] %}
+                        <td><a class="user_detail" href="/users/{{row[0]}}">{{ data }}</a></td>
+                        {% endfor %}
+                    {% endfor %} 
+                    </tr>
                 </tbody>
             </table>
         </div>
-        </table>
-        </section>
-    </div>
-</div>
-
-
-<footer class="mainFooter">
-    <button name="{{ form_action }}" onclick="location.href='{{ form_action }}'" type="button">{{ button_caption }}</button>
-
-<p>Copyright &copy; Mittu-Domain CoDeCoOlL</p>
-
-
-</footer>
-
-
-</body>
-</html>
+     </div>
+    </section>
+<button name="{{ form_action }}" onclick="location.href='{{ form_action }}'" type="button">{{ button_caption }}</button>
+{% endblock %}

@@ -1,34 +1,28 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
-    <title>Your comment</title>
-</head>
-<body>
-    <div class="comment_form">
-        <h2>{{ data.title }}</h2>
-        <p> {{ data.message }}</p>
-        <h3>Your Comment:</h3>
-        <form action="/{{ data.type }}/{{ data.id }}/add_comment" method="POST">
-            <p>
-                User: 
-                <select name='selected_user'>
-                    {% for name in usernames %}
-                        <option value= {{ name[0] }} > {{ name[0] }} </option>
-                    {% endfor %}
-                </select>
-            </p>
-            <textarea name="comment" required minlength="10" rows="15" cols="92"></textarea>
-            <p>
-                <button type="submit" name="button" value="{{ data.id }}">Post Comment</button>
-                {% if data.type == 'question' %}
-                <button name="index" onclick="location.href='/question/{{ data.id }}'" type="button">Back to question</button>
-                {% else %}
-                <button name="index" onclick="location.href='/question/{{ data.question_id }}'" type="button">Back to question</button>
-                {% endif %}
-            </p>
+{% extends "base.html" %}
+{% block title %} Your comment {% endblock %}
+{% block body %}
+<div class="form_body">
+    <h2>{{ data.title }}</h2>
+    <p> {{ data.message }}</p>
+    <h3>Your Comment:</h3>
+    <form action="/{{ data.type }}/{{ data.id }}/add_comment" method="POST">
+        <div>
+            <p>User:</p>
+            <select name='selected_user'>
+                {% for name in usernames %}
+                    <option value= {{ name[0] }} > {{ name[0] }} </option>
+                {% endfor %}
+            </select>
+        </div>
+        <textarea class="form_area" name="comment" required minlength="10" rows="15" cols="92"></textarea>
+        <div>
+            <button type="submit" name="button" value="{{ data.id }}">Post Comment</button>
+            {% if data.type == 'question' %}
+            <button name="index" onclick="location.href='/question/{{ data.id }}'" type="button">Back to question</button>
+            {% else %}
+            <button name="index" onclick="location.href='/question/{{ data.question_id }}'" type="button">Back to question</button>
+            {% endif %}
+        </div>
     </form>
-    </div>
-</body>
-</html>
+</div>
+{% endblock %}

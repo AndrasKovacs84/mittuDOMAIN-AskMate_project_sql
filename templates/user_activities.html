@@ -1,54 +1,50 @@
-<!DOCTYPE>
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    </head>
-    <body>
-        <table id="user_details">
-            <tr>
-                <td>User name: </td>
-                <td>{{ user_data.name }}</td>
-            </tr>
-            <tr>
-                <td>Reputation: </td>
-                <td>{{ user_data.reputation }}</td>
-            </tr>
-            <tr>
-                <td>Time of registry: </td>
-                <td>{{ user_data.submission_time }}</td>
-            </tr>
-        </table>
+{% extends "base.html" %}
+{% block title %} Users Details {% endblock %}
+{% block body %}
+<table id="user_details">
+    <tr>
+        <td>User name: </td>
+        <td>{{ user_data.name }}</td>
+    </tr>
+    <tr>
+        <td>Reputation: </td>
+        <td>{{ user_data.reputation }}</td>
+    </tr>
+    <tr>
+        <td>Time of registry: </td>
+        <td>{{ user_data.submission_time }}</td>
+    </tr>
+</table>
 
-        <table id="user_questions" class="user_activity">
-            <caption>Questions:</caption>
-            {% for question in user_activities.questions %}
-                <tr>
-                    <td><a href="../question/{{question.id}}">{{ question.title }}</a></td>
-                    <td>{{ question.message }}</td>
-                </tr>
-            {% endfor %}
-        </table>
+<table id="user_questions" class="user_activity">
+    <caption>Questions:</caption>
+    {% for question in user_activities.questions %}
+        <tr>
+            <td><a href="../question/{{question.id}}">{{ question.title }}</a></td>
+            <td>{{ question.message }}</td>
+        </tr>
+    {% endfor %}
+</table>
 
-        <table id="user_answers" class="user_activity">
-            <caption>Answers:</caption>
-            {% for answer in user_activities.answers %}
-                <tr>
-                    <td><a href="../question/{{answer.question_id}}">{{ answer.message }}</a></td>
-                </tr>
-            {% endfor %}
-        </table>
+<table id="user_answers" class="user_activity">
+    <caption>Answers:</caption>
+    {% for answer in user_activities.answers %}
+        <tr>
+            <td><a href="../question/{{answer.question_id}}">{{ answer.message }}</a></td>
+        </tr>
+    {% endfor %}
+</table>
 
-        <table id="user_comments" class="user_activity">
-            <caption>Comments:</caption>
-            {% for comment in user_activities.comments %}
-                <tr>
-                    {% if comment.question_id != None %}
-                    <td><a href="../question/{{comment.question_id}}">{{ comment.message }}</a></td>
-                    {% elif comment.answer_id != None %}
-                    <td><a href="../answer/{{comment.answer_id}}">{{ comment.message }}</a></td>
-                    {% endif %}
-                </tr>
-            {% endfor %}
-        </table>
-    </body>
-</html>
+<table id="user_comments" class="user_activity">
+    <caption>Comments:</caption>
+    {% for comment in user_activities.comments %}
+        <tr>
+            {% if comment.question_id != None %}
+            <td><a href="../question/{{comment.question_id}}">{{ comment.message }}</a></td>
+            {% elif comment.answer_id != None %}
+            <td><a href="../answer/{{comment.answer_id}}">{{ comment.message }}</a></td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}
