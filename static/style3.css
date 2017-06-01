@@ -34,22 +34,54 @@ body {
 
 
 .list_body {
-    background-color:#f8f8ff;
+    background: -webkit-linear-gradient(left, #25c481, #25b7c4);
+    background: -moz-linear-gradient(left, #25c481, #25b7c4);
+    background: -o-linear-gradient(left, #25c481, #25b7c4);
+    background: linear-gradient(to right, #25c481, #25b7c4);
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     padding: 3% 5%;
     margin-left: auto;
     margin-right: auto;
-
+    text-align: center;
 }
 
+.form_body{
+    background-color: #f8f8ff;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    padding: 3% 5%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    text-align: center;
+}
+
+.form_body form div{
+    margin: 5px;
+}
+
+.form_body form div input{
+    margin: 10px;
+}
+
+.form_area{
+    width: 60%;
+}
 
 .list_body p {
 
     text-align: center;
 }
 
+.answers_body{
+    width: 80%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 button:hover, input[type=submit]:hover {
     background-color:linear-gradient(to right, #25c481, #25b7c4);
@@ -59,10 +91,10 @@ button:hover, input[type=submit]:hover {
 
 
 button, input[type=submit] {
-    background-color: #25c481;
+    background-color: lightgreen;
     border: 1px;
     border-radius: 5px;
-    color: white;
+    color: black;
     margin-top: 15px;
     margin-bottom: 15px;
     padding: 15px 20px;
@@ -104,6 +136,12 @@ table{
   border: 1px solid rgba(255,255,255,0.3);
 }
 
+.tbl-content_for_details{
+  height: auto;
+  overflow-x:auto;
+  margin-top: 0px;
+  border: 1px solid rgba(255,255,255,0.3);
+}
 
 th{
   padding: 20px 15px;
@@ -151,14 +189,47 @@ font-size: 80%;
 
 }
 
+.top_button_list{
+    text-align: center;
+}
+.details{
+    text-align: center;
+}
+
+.question_details{
+    background-color: #66d2bb;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: auto;
+    display: inline-block;
+}
+
+.question_details h4{
+    display: inline-block;
+}
+
+.vote_wrapper{
+    display: inline-block;
+}
+
+.vote_wrapper form{
+    display: inline-block;
+    transform: scale(0.6);
+}
+
+
 /* for user page, check input */
 .user_name_body input:invalid{
     border-color: #DD2C00;
+    border-width: thick;
+    padding: 5px;
 }
 
 .user_name_body input,
 .user_name_body input:valid{
     border-color: #ccc;
+    border-width: thick;
+    padding: 5px;
 }
 
 /* for custom scrollbar for webkit browser*/

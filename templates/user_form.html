@@ -1,24 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
-    <title>User Registration</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %} User Registration {% endblock %}
+{% block body %}
+<div class="form_body">
+    <h2>{{ name_exist }}</h2>
+    <h2>Hello New User Mate</h2>
+    <p>This is your registration page</p>
+    <h3>Your User Name</h3>
     <div class="user_name_body">
-        <h2>{{ name_exist }}</h2>
-        <h2>Hello New User Mate</h2>
-        <p>This is your registration page</p>
-        <h3>Your User Name</h3>
         <form action="{{ form_action }}" method="POST">
             <input class="user_name_form" type=text name=new_user_name pattern="[A-Za-z0-9]+"
-                   required minlength="3"
-                   required maxlength="24"
-                   placeholder="Username" 
-                   title="Username should only contain letters and numbers min. length 3 character, max. length 24 character. e.g. John1">
+                    required minlength="3"
+                    required maxlength="24"
+                    placeholder="Username" 
+                    title="Username should only contain letters and numbers min. length 3 character, max. length 24 character. e.g. John1">
             <input type="submit" value="{{ button_caption }}"  name="button" align="center"/>
         </form>
     </div>
-</body>
-</html>
+    <button class="back_to_index" name="index" onclick="location.href='/'" type="button">Back to Index</button>
+</div>
+{% endblock %}
