@@ -179,7 +179,7 @@ def add_comment_to_answer(answer_id):
 def insert_answer_comment(answer_id):
     user_id = user_queries.get_user_id(request.form["selected_user"])[0][0]
     comment = helper.init_comment_values(request.form, request.path, answer_id)
-    insert_queries.sql_insert_comment(comment, user_id)
+    comment_queries.insert_comment(comment, user_id)
     answer = answer_queries.answer_details(answer_id)
     return redirect('/question/' + str(answer['question_id']))
 
