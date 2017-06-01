@@ -237,7 +237,7 @@ def list_users():
 @app.route('/question/<int:question_id>/vote-up', methods=['POST'])
 def question_vote_up(question_id):
     vote_change = '+1'
-    reputation_change ='+5'
+    reputation_change = '+5'
     table = 'question'
     user_queries.update_reputation(table, question_id, reputation_change)
     multi_table_queries.update_vote_nr(table, question_id, vote_change)
