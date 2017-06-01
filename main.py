@@ -2,6 +2,7 @@ import select_queries
 import delete_queries
 import insert_queries
 import user_queries
+import tag_queries
 import helper
 from flask import Flask, render_template, request, url_for, redirect
 from datetime import datetime
@@ -204,24 +205,24 @@ def list_users():
                            questions=questions_table,
                            button_caption=button_caption
                            )
-  
 
 
 
 
+@app.route('/add_tag', methods=['GET'])
+def list_tag():
+    questions_table = tag_queries.list_tag()
+    form_action = '/'
+    button_caption = 'Back to index'
+    return render_template('add_tag.html',
+                           form_action=form_action,
+                           questions=questions_table,
+                           button_caption=button_caption
+                           )
 
 
 
-#@app.route('/', methods=['GET'])
-#def user_details(id):
- #   user_queries.sql_user_details(id)
-    
-  #  form_action = '/'
-   # button_caption = 'Home'
-    #return render_template('user_detail_list.html',
-     #                      form_action=form_action,
-      #                     button_caption=button_caption
-       #                    )
+
 
 
 
